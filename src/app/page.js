@@ -1,7 +1,10 @@
+import { Content } from "@/components/Content";
 import { Header } from "@/components/Header/Header";
+import { NavbarMenu } from "@/components/NavbarMenu";
 
 export default function Home() {
-  return <main className="px-4 py-2">
-    <Header />
+  return <main className="flex">
+    <NavbarMenu />
+    <Content />
   </main>
 }
