@@ -13,7 +13,6 @@ export const Content = () => {
           <Post />
         </div>
       })}
-      <Post />
     </div>
   </div>;
 };
