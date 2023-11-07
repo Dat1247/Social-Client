@@ -1,0 +1,86 @@
+[
+    {
+        "postID": 9,
+        "content": "Test create post 9",
+        "Author_Id": 3,
+        "FileUpload": [],
+        "ViewMode": "Friend",
+        "createdAt": "2023-07-04T13:08:31.000Z",
+        "updatedAt": "2023-07-04T13:08:31.000Z",
+        "numberOfLike": 0,
+        "numberOfComment": 0
+    },
+    {
+        "postID": 8,
+        "content": "Test create post 8",
+        "Author_Id": 3,
+        "FileUpload": [],
+        "ViewMode": "Friend",
+        "createdAt": "2023-07-04T13:08:28.000Z",
+        "updatedAt": "2023-07-04T13:08:28.000Z",
+        "numberOfLike": 0,
+        "numberOfComment": 0
+    },
+    {
+        "postID": 7,
+        "content": "Test create post 7",
+        "Author_Id": 3,
+        "FileUpload": [],
+        "ViewMode": "Everyone",
+        "createdAt": "2023-07-04T13:08:21.000Z",
+        "updatedAt": "2023-07-04T13:08:21.000Z",
+        "numberOfLike": 2,
+        "numberOfComment": 7
+    },
+    {
+        "postID": 6,
+        "content": "Test create post 6",
+        "Author_Id": 1,
+        "FileUpload": [],
+        "ViewMode": "Everyone",
+        "createdAt": "2023-07-04T13:07:47.000Z",
+        "updatedAt": "2023-07-04T13:07:47.000Z",
+        "numberOfLike": 2,
+        "numberOfComment": 0
+    },
+    {
+        "postID": 5,
+        "content": "Test create post 5",
+        "Author_Id": 1,
+        "FileUpload": [
+            "./public/myFile/1688476042465_20.jpg",
+            "./public/myFile/1688476042466_23.jpg"
+        ],
+        "ViewMode": "Everyone",
+        "createdAt": "2023-07-04T13:07:22.000Z",
+        "updatedAt": "2023-07-04T13:07:22.000Z",
+        "numberOfLike": 5,
+        "numberOfComment": 1
+    },
+    {
+        "postID": 4,
+        "content": "Test create post 4",
+        "Author_Id": 1,
+        "FileUpload": [
+            "./public/myFile/1688475987936_24.jpg"
+        ],
+        "ViewMode": "Friend",
+        "createdAt": "2023-07-04T13:06:27.000Z",
+        "updatedAt": "2023-07-04T13:06:27.000Z",
+        "numberOfLike": 1,
+        "numberOfComment": 0
+    },
+    {
+        "postID": 3,
+        "content": "Test update post 3.2",
+        "Author_Id": 1,
+        "FileUpload": [
+            "./public/myFile/1698324320581_12.jpg"
+        ],
+        "ViewMode": "Only me",
+        "createdAt": "2023-07-04T13:05:36.000Z",
+        "updatedAt": "2023-10-26T12:52:17.000Z",
+        "numberOfLike": 0,
+        "numberOfComment": 0
+    }
+]

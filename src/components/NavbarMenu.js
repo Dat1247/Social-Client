@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export const NavbarMenu = () => {
@@ -6,20 +7,20 @@ export const NavbarMenu = () => {
     <div className="flex flex-col h-full">
         <p className="logo text-2xl font-bold tracking-wider">Social Clone</p>
         <div className="flex flex-col justify-between h-full navbar pt-10">
-            <ul className="text-lg">
-                <li className="mb-8">
+            <ul className="text-lg flex flex-col">
+                <Link className="mb-8" href={'/'}>
                     <i className="fa fa-home mr-2"></i>Home
-                </li>
-                <li className="mb-8">
+                </Link>
+                <Link className="mb-8" href={'/search'}>
                     <i className="fa fa-search mr-2"></i>Search
-                </li>
-                <li className="mb-8">
+                </Link>
+                <Link className="mb-8" href={'/'}>
                     <i className="fa fa-heart mr-2"></i>Notification
-                </li>
-                <li className="mb-8 flex items-center">
+                </Link>
+                <Link className="mb-8 flex items-center" href={'/'}>
                     <img className="rounded-full mr-2 w-5 h-5" alt="avatar" src="https://cdn.kinocheck.com/i/w=480/pmrjs5090t.jpg"  />
                     Profile
-                </li>
+                </Link>
             </ul>
             <div className="text-lg">
                 <i className="fa fa-bars"></i> More
