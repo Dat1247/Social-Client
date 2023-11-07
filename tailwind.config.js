@@ -16,6 +16,9 @@ module.exports = {
         '0.5': '1px',
         '80': '21rem'
       },
+      height: {
+        '0.5': '1px'
+      },
       boxShadow: {
         '3xl': '3px 0px 11px 3px rgba(94,93,93,0.74)'
       }

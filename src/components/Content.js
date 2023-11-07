@@ -6,9 +6,13 @@ import { Post } from "./Post";
 
 export const Content = () => {
   console.log('post', arrPost)
-  return <div className="flex-grow py-8 px-10 ">
+  return <div className="flex-grow py-8 px-10 max-h-screen overflow-y-scroll ">
     <div className="flex flex-col items-center">
-      Content
+      {arrPost?.map((post, index) => {
+        return <div key={index}>
+          <Post />
+        </div>
+      })}
       <Post />
     </div>
   </div>;
