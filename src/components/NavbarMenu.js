@@ -7,7 +7,7 @@ import {FaBars} from 'react-icons/fa'
 export const NavbarMenu = () => {
   return <div className="w-80  h-screen py-8 px-6">
     <div className="flex flex-col h-full">
-        <p className="logo text-2xl font-bold tracking-wider">Social Clone</p>
+        <Link href={"/"} className="logo text-2xl font-bold tracking-wider">Social Clone</Link>
         <div className="flex flex-col justify-between h-full navbar pt-10">
             <ul className="text-lg flex flex-col">
                 <Link className="mb-8 flex gap-2 items-center" href={'/'}>
