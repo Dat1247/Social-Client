@@ -14,14 +14,14 @@ export const Content = () => {
 
   useEffect(() => {
     dispatch(getArrayPost(arrPost))
-  }, [])
+  }, [dispatch])
 
   console.log('arrPosts', arrPosts)
   return <div className="flex-grow py-8 px-10 max-h-screen overflow-y-scroll ">
     <div className="flex flex-col items-center">
       {arrPost?.map((post, index) => {
         return <div key={index}>
-          <Post />
+          <Post post={post} />
         </div>
       })}
     </div>

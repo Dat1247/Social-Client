@@ -6,7 +6,7 @@ import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs'
 
 
-export const Post = () => {
+export const Post = ({post}) => {
     const [isLike, setIsLike] = useState(false)
 
     const handleChangeLike = () => {
@@ -16,7 +16,7 @@ export const Post = () => {
         console.log("Get comments")
     }
 
-  return <div className="max-w-md my-5">
+  return <div className="max-w-md w-96 my-5">
     <div className="flex items-center mb-5">
         <div>
             <Image width={20} height={20} className="w-10 h-10 rounded-full" src={'/default-img/avatar.jpg'} alt="avatar" />
@@ -29,14 +29,14 @@ export const Post = () => {
     </div>
     <div className="mb-5">
         <div className="mb-3">
-            <Image width={300} height={250} src={'/default-img/post.jpg'} alt="image" />
+            <img className="w-full" src={'/default-img/post.jpg'} alt="image" />
         </div>
         <div>
             <p> 
                 <span className="font-bold mr-1">
                     takeiteasy 
                 </span>
-                lorem Ips incorrectly formatted incorrectly as described
+                {post.content}
             </p>
         </div>
     </div>
@@ -46,13 +46,13 @@ export const Post = () => {
             <BsChatSquare className="cursor-pointer text-lg" onClick={handleClickComment} />
         </div>
         <div className="my-2">
-            <p className="font-semibold text-sm cursor-pointer mb-2">1,251 likes</p>
+            <p className="font-semibold text-sm cursor-pointer mb-2">{post.numberOfLike} likes</p>
             <p className="text-slate-400 cursor-pointer text-sm">
-                View all 6 comments
+                {post.numberOfComment === 0 ? 'No have comment!' : `View all ${post.numberOfComment} comments` }
             </p>
         </div>
         <form>
-            <input placeholder="Add a comment" />
+            <input className="border-none outline-none text-sm pr-2 py-1 rounded-t bg-transparent" placeholder="Add a comment..." />
         </form>
 
         <div className="h-0.5 w-full mt-5 bg-slate-600" />

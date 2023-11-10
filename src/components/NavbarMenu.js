@@ -16,7 +16,7 @@ export const NavbarMenu = () => {
                 <Link className="mb-8 flex gap-2 items-center" href={'/search'}>
                     <AiOutlineSearch />Search
                 </Link>
-                <Link className="mb-8 flex gap-2 items-center" href={'/'}>
+                <Link className="mb-8 flex gap-2 items-center" href={'/notification'}>
                    <AiFillHeart />Notification
                 </Link>
                 <Link className="mb-8 flex items-center" href={'/'}>
