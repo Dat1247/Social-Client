@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import arrPosts from '../../posts.json';
 
 export const postSlice = createSlice({
     name: 'postSlice',
     initialState: {
-        arrPost: []
+        arrPost: arrPosts
     },
     reducers: {
         getArrayPost: (state, action) => {

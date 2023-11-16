@@ -2,8 +2,14 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai';
-import {BsChatSquare, BsDot} from 'react-icons/bs'
+import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
+import {BsChatSquare, BsDot} from 'react-icons/bs';
+import {
+    Popover,
+    PopoverHandler,
+    PopoverContent,
+    Button,
+  } from "@material-tailwind/react";
 
 
 export const Post = ({post}) => {
@@ -17,14 +23,30 @@ export const Post = ({post}) => {
     }
 
   return <div className="max-w-md w-96 my-5">
-    <div className="flex items-center mb-5">
-        <div>
-            <Image width={20} height={20} className="w-10 h-10 rounded-full" src={'/default-img/avatar.jpg'} alt="avatar" />
+    <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center">
+            <div>
+                <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
+            </div>
+            <div className="flex items-center ml-3">
+                <p className="font-bold cursor-pointer">takeiteasy</p>
+                <BsDot />
+                <p className="text-sm text-slate-400">2h ago</p>
+            </div>
         </div>
-        <div className="flex items-center ml-3">
-            <p className="font-bold">takeiteasy</p>
-            <BsDot />
-            <p className="text-sm text-slate-400">2h ago</p>
+        <div>
+            
+            <Popover>
+                <PopoverHandler>
+                    <Button>
+                        <AiOutlineMore className="cursor-pointer" />
+                    </Button>
+                </PopoverHandler>
+                <PopoverContent>
+                    This is a very beautiful popover, show some love.
+                </PopoverContent>
+            </Popover>
+
         </div>
     </div>
     <div className="mb-5">
@@ -33,7 +55,7 @@ export const Post = ({post}) => {
         </div>
         <div>
             <p> 
-                <span className="font-bold mr-1">
+                <span className="font-bold mr-1 cursor-pointer">
                     takeiteasy 
                 </span>
                 {post.content}
