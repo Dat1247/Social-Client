@@ -1,10 +1,12 @@
 "use client"
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs';
 import { Popover, Transition } from '@headlessui/react';
+import { MdOutlineEdit } from "react-icons/md";
+import { LiaTrashSolid } from "react-icons/lia";
 
 export const Post = ({post}) => {
     const [isLike, setIsLike] = useState(false)
@@ -30,10 +32,13 @@ export const Post = ({post}) => {
         </div>
         <div>
             
-        <Popover>
-            <Popover.Button>Solutions</Popover.Button>
+        <Popover className="relative">
+            <Popover.Button>
+                <AiOutlineMore className="hover:text-slate-400" />
+            </Popover.Button>
 
             <Transition
+                as={Fragment}
                 enter="transition duration-100 ease-out"
                 enterFrom="transform scale-95 opacity-0"
                 enterTo="transform scale-100 opacity-100"
@@ -41,10 +46,19 @@ export const Post = ({post}) => {
                 leaveFrom="transform scale-100 opacity-100"
                 leaveTo="transform scale-95 opacity-0"
             >
-                <Popover.Panel>
-                    <p>Test 1</p>
-                    <p>Test 2</p>
-
+                <Popover.Panel className={"absolute top-7 right-0 w-auto rounded-md bg-slate-600 px-3 py-1"}>
+                    <div className="flex gap-1 items-center">
+                        <MdOutlineEdit />
+                        <span className="text-sm">
+                            Edit
+                        </span>
+                    </div>
+                    <div className="flex gap-1 items-center mt-1">
+                        <LiaTrashSolid />
+                        <span className="text-sm">
+                            Delete
+                        </span>
+                    </div>
                 </Popover.Panel>
             </Transition>
         </Popover>
