@@ -4,13 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs';
-import {
-    Popover,
-    PopoverHandler,
-    PopoverContent,
-    Button,
-  } from "@material-tailwind/react";
-
+import { Popover, Transition } from '@headlessui/react';
 
 export const Post = ({post}) => {
     const [isLike, setIsLike] = useState(false)
@@ -36,16 +30,24 @@ export const Post = ({post}) => {
         </div>
         <div>
             
-            <Popover>
-                <PopoverHandler>
-                    <Button>
-                        <AiOutlineMore className="cursor-pointer" />
-                    </Button>
-                </PopoverHandler>
-                <PopoverContent>
-                    This is a very beautiful popover, show some love.
-                </PopoverContent>
-            </Popover>
+        <Popover>
+            <Popover.Button>Solutions</Popover.Button>
+
+            <Transition
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+            >
+                <Popover.Panel>
+                    <p>Test 1</p>
+                    <p>Test 2</p>
+
+                </Popover.Panel>
+            </Transition>
+        </Popover>
 
         </div>
     </div>
