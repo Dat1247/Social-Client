@@ -2,10 +2,10 @@ import { ProviderRedux } from '../../redux/provider';
 
 
 export const metadata = {
-  title: 'Login',
+  title: 'Register',
 }
 
-export default function LoginLayout({ children }) {
+export default function RegisterLayout({ children }) {
   return (
         <ProviderRedux>
           {children}
