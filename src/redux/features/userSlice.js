@@ -3,12 +3,16 @@
 import { STATUS_CODE, TOKEN, USER_LOGIN } from "@/util/config";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { loginAction, registerAction } from "../actions/userActions";
+import { Notification } from "@/components/Notification/Notification";
 
 let user = {};
 
-// if (localStorage.getItem(USER_LOGIN)) {
-// 	user = JSON.parse(localStorage.getItem(USER_LOGIN));
-// }
+if (typeof window !== 'undefined') {
+    if (localStorage?.getItem(USER_LOGIN)) {
+        user = JSON.parse(localStorage.getItem(USER_LOGIN));
+    }
+  }
+
 
 export const userSlice = createSlice({
     name: "userSlice",
@@ -32,7 +36,7 @@ export const userSlice = createSlice({
             }
         });
         builder.addCase(loginAction.rejected, (state, action) => {
-            console.log("error", action.payload?.response.data)
+            Notification("error", "Login failed!", action.payload?.response.data);
         });
         builder.addCase(registerAction.fulfilled, (state, action) => {
             const {data, status} = action.payload;
@@ -43,7 +47,7 @@ export const userSlice = createSlice({
             }
         });
         builder.addCase(registerAction.rejected, (state, action) => {
-            alert(action.payload?.response.data)
+            Notification("error", "Register failed!", action.payload?.response.data);
         })
     }
 })
