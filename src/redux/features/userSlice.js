@@ -33,6 +33,8 @@ export const userSlice = createSlice({
                 localStorage.setItem(USER_LOGIN, JSON.stringify(data.userLogin));
                 localStorage.setItem(TOKEN, JSON.stringify(data.userLogin.accessToken));
                 state.userLogin = data.userLogin;
+
+                Notification("success", "Login successfully!")
             }
         });
         builder.addCase(loginAction.rejected, (state, action) => {
@@ -42,8 +44,7 @@ export const userSlice = createSlice({
             const {data, status} = action.payload;
 
             if(status === STATUS_CODE.SUCCESS) {
-                console.log({data})
-                alert("Sign up new account successfully!")
+                Notification("success", "Sign up new account successfully!")
             }
         });
         builder.addCase(registerAction.rejected, (state, action) => {

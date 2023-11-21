@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.17",
     "@reduxjs/toolkit": "^1.9.7",
     "antd": "^5.11.2",
     "axios": "^1.6.2",
