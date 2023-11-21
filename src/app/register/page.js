@@ -4,6 +4,7 @@ import React from "react";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
+import { registerAction } from "@/redux/actions/userActions";
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -11,7 +12,7 @@ const LoginSchema = Yup.object().shape({
         .min(6, 'Too Short!')
         .max(10, 'Too Long!')
         .required('Required'),
-    username: Yup.string().required('Required'),
+    name: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
 });
 
@@ -20,13 +21,13 @@ export default function Register(){
   const formik = useFormik({
     initialValues: {
       email: '',
-      username:'',
+      name:'',
       password: '',
       phoneNumber: ''
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values)
+      dispatch(registerAction(values))
     }
   })
 
@@ -52,10 +53,10 @@ export default function Register(){
             </div>
             <div className="space-y-2 mt-4">
               <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
-                  Username
+                  Name
               </label>
-              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="username" type="" placeholder="Enter your username" value={values.username} onChange={handleChange} />
-              {touched.username && errors.username && <div className="text-red-500 text-xs italic">{errors.username}</div>}
+              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="name" type="" placeholder="Enter your username" value={values.username} onChange={handleChange} />
+              {touched.name && errors.name && <div className="text-red-500 text-xs italic">{errors.name}</div>}
             </div>
             <div className="space-y-2 mt-4">
               <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
@@ -71,14 +72,16 @@ export default function Register(){
               <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="phoneNumber" type="" placeholder="Enter your phone number" value={values.phoneNumber} onChange={handleChange} />
               {touched.phoneNumber && errors.phoneNumber && <div className="text-red-500 text-xs italic">{errors.phoneNumber}</div>}
             </div>
-            <div className="text-sm my-3">
-                <a href="#" className="text-green-400 hover:text-green-600 duration-500">
-                  Forgot your password?
-                </a>
-              </div>
-            <button type="submit" className="w-full flex justify-center bg-green-400  hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+            
+            <button type="submit" className="w-full flex justify-center bg-green-400 my-4 hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
                 Sign up
               </button>
+              <div className="text-sm text-center">
+                <span className="italic">You have account? </span>
+                <a href="/login" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
+                  Go to login
+                </a>
+              </div>
           </form>
         </div>
       </div>

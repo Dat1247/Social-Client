@@ -54,14 +54,22 @@ export default function Login(){
               <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="password" type="password" placeholder="Enter your password" value={values.password} onChange={handleChange} />
               {touched.password && errors.password && <div className="text-red-500 text-xs italic">{errors.password}</div>}
             </div>
-            <div className="text-sm my-3">
-                <a href="#" className="text-green-400 hover:text-green-600 duration-500">
-                  Forgot your password?
-                </a>
+            <div className="text-sm my-3 text-right italic">
+              <a href="#" className="text-green-400 hover:text-green-600 duration-500">
+                Forgot your password?
+              </a>
               </div>
-            <button type="submit" className="w-full flex justify-center bg-green-400  hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                Sign in
-              </button>
+            <button type="submit" className="w-full flex justify-center bg-green-400 my-4 hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+              Sign in
+            </button>
+            <div className="text-sm my-3">
+              <span className="italic">
+                {`You don't have account? `}
+              </span>
+              <a href="/register" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
+                Sign up
+              </a>
+            </div>
           </form>
         </div>
       </div>

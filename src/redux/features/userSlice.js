@@ -2,7 +2,7 @@
 
 import { STATUS_CODE, TOKEN, USER_LOGIN } from "@/util/config";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { loginAction } from "../actions/userActions";
+import { loginAction, registerAction } from "../actions/userActions";
 
 let user = {};
 
@@ -32,7 +32,18 @@ export const userSlice = createSlice({
             }
         });
         builder.addCase(loginAction.rejected, (state, action) => {
+            console.log("error", action.payload?.response.data)
+        });
+        builder.addCase(registerAction.fulfilled, (state, action) => {
+            const {data, status} = action.payload;
 
+            if(status === STATUS_CODE.SUCCESS) {
+                console.log({data})
+                alert("Sign up new account successfully!")
+            }
+        });
+        builder.addCase(registerAction.rejected, (state, action) => {
+            alert(action.payload?.response.data)
         })
     }
 })
