@@ -1,10 +1,13 @@
 'use client'
 
-import React from "react";
+import React, { useEffect } from "react";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/redux/actions/userActions";
+import { toggleIsLoading } from "@/redux/features/userSlice";
+import { useRouter } from "next/navigation";
+import { Loading } from "@/components/Loading";
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -13,23 +16,34 @@ const LoginSchema = Yup.object().shape({
         .max(10, 'Too Long!')
         .required('Required'),
     name: Yup.string().required('Required'),
+    username: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
 });
 
 export default function Register(){
+  const {isSignUp, isLoading} = useSelector(state => state.userReducer);
+  const router = useRouter()
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
       name:'',
+      username: '',
       password: '',
       phoneNumber: ''
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
+      dispatch(toggleIsLoading());
       dispatch(registerAction(values))
     }
-  })
+  });
+
+  useEffect(() => {
+    if(isSignUp) {
+      router.push("/login")
+    }
+  }, [isSignUp, isLoading, router]);
 
   const {values, errors, touched, handleChange, handleSubmit } = formik
 
@@ -53,9 +67,16 @@ export default function Register(){
             </div>
             <div className="space-y-2 mt-4">
               <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
+                  Username
+              </label>
+              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="username" type="" placeholder="Enter your username" value={values.username} onChange={handleChange} />
+              {touched.username && errors.username && <div className="text-red-500 text-xs italic">{errors.username}</div>}
+            </div>
+            <div className="space-y-2 mt-4">
+              <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
                   Name
               </label>
-              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="name" type="" placeholder="Enter your username" value={values.username} onChange={handleChange} />
+              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="name" type="" placeholder="Enter your name" value={values.name} onChange={handleChange} />
               {touched.name && errors.name && <div className="text-red-500 text-xs italic">{errors.name}</div>}
             </div>
             <div className="space-y-2 mt-4">
@@ -74,17 +95,20 @@ export default function Register(){
             </div>
             
             <button type="submit" className="w-full flex justify-center bg-green-400 my-4 hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                Sign up
-              </button>
-              <div className="text-sm text-center">
-                <span className="italic">You have account? </span>
-                <a href="/login" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
-                  Go to login
-                </a>
-              </div>
+              Sign up
+            </button>
+            <div className="text-sm text-center">
+              <span className="italic">You have account? </span>
+              <a href="/login" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
+                Go to login
+              </a>
+            </div>
           </form>
         </div>
       </div>
     </div>
+    {
+      isLoading ? <Loading /> : ""
+    }
   </section>;
 };

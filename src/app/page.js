@@ -1,3 +1,4 @@
+
 import { Content } from "@/components/Content";
 import { NavbarMenu } from "@/components/NavbarMenu";
 

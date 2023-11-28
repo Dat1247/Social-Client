@@ -1,10 +1,13 @@
 'use client'
 
-import React from "react";
+import React, { useEffect } from "react";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "@/redux/actions/userActions";
+import { useRouter } from "next/navigation";
+import { Loading } from "@/components/Loading";
+import { toggleIsLoading } from "@/redux/features/userSlice";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -15,6 +18,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Login(){
+  const {isLogin, isLoading} = useSelector(state => state.userReducer);
+  const router = useRouter()
+
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -23,13 +29,22 @@ export default function Login(){
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
+      dispatch(toggleIsLoading());
       dispatch(loginAction(values));
+
     }
   })
 
+  useEffect(() => {
+    if(isLogin) {
+      router.push("/")
+    }
+  }, [isLogin, isLoading, router]);
+
+
   const {values, errors, touched, handleChange, handleSubmit } = formik
 
-  return <section className="h-screen">
+  return <section className="h-screen relative">
     <div className="container h-full px-6 py-24">
       <div
         className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -74,5 +89,8 @@ export default function Login(){
         </div>
       </div>
     </div>
+    {
+      isLoading ? <Loading /> : ""
+    }
   </section>;
 };
