@@ -1,49 +1,9 @@
-'use client'
 
-import React, { useEffect } from "react";
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
-import { useDispatch, useSelector } from "react-redux";
-import { loginAction } from "@/redux/actions/userActions";
-import { useRouter } from "next/navigation";
-import { Loading } from "@/components/Loading";
-import { toggleIsLoading } from "@/redux/features/userSlice";
+import React from "react";
+import ClientLoginFormWrapper from "./ClientLoginFormWrapper";
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string()
-    .min(6, 'Too Short!')
-    .max(10, 'Too Long!')
-    .required('Required'),
-});
 
 export default function Login(){
-  const {isLogin, isLoading} = useSelector(state => state.userReducer);
-  const router = useRouter()
-
-  const dispatch = useDispatch();
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    validationSchema: LoginSchema,
-    onSubmit: (values) => {
-      dispatch(toggleIsLoading());
-      dispatch(loginAction(values));
-
-    }
-  })
-
-  useEffect(() => {
-    if(isLogin) {
-      router.push("/")
-    }
-  }, [isLogin, isLoading, router]);
-
-
-  const {values, errors, touched, handleChange, handleSubmit } = formik
-
   return <section className="h-screen relative">
     <div className="container h-full px-6 py-24">
       <div
@@ -56,41 +16,9 @@ export default function Login(){
         </div>
 
         <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
-          <form onSubmitCapture={handleSubmit}>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-100 tracking-wide">Email</label>
-              <input className=" w-full text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="email" type="" placeholder="mail@gmail.com" value={values.email} onChange={handleChange} />
-              {touched.email && errors.email && <div className="text-red-500 text-xs italic">{errors.email}</div>}
-            </div>
-            <div className="space-y-2 mt-4">
-              <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
-                  Password
-              </label>
-              <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="password" type="password" placeholder="Enter your password" value={values.password} onChange={handleChange} />
-              {touched.password && errors.password && <div className="text-red-500 text-xs italic">{errors.password}</div>}
-            </div>
-            <div className="text-sm my-3 text-right italic">
-              <a href="#" className="text-green-400 hover:text-green-600 duration-500">
-                Forgot your password?
-              </a>
-              </div>
-            <button type="submit" className="w-full flex justify-center bg-green-400 my-4 hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-              Sign in
-            </button>
-            <div className="text-sm my-3">
-              <span className="italic">
-                {`You don't have account? `}
-              </span>
-              <a href="/register" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
-                Sign up
-              </a>
-            </div>
-          </form>
+          <ClientLoginFormWrapper />
         </div>
       </div>
     </div>
-    {
-      isLoading ? <Loading /> : ""
-    }
   </section>;
 };

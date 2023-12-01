@@ -1,18 +1,15 @@
-'use client'
-
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
-import routerReducer from "./features/routerSlice";
-import userReducer from "./features/userSlice";
-import postReducer from "./features/postSlice"
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import userSlice from './features/userSlice'
 
 export const store = configureStore({
     reducer: {
-        routerReducer,
-        userReducer,
-        postReducer
+        userSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
-    }),
-    devTools: process.env.NODE_ENV !== "production"
+    })
 })
+
+export const useAppDispatch = () => useDispatch();
+export const useAppSelector = useSelector

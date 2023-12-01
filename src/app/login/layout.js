@@ -1,4 +1,3 @@
-import { ProviderRedux } from '../../redux/provider';
 
 
 export const metadata = {
@@ -7,8 +6,8 @@ export const metadata = {
 
 export default function LoginLayout({ children }) {
   return (
-        <ProviderRedux>
+        <>
           {children}
-        </ProviderRedux>
+        </>
   )
 }
