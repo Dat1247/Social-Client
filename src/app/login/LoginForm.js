@@ -1,7 +1,7 @@
 'use client'
 
 import { Loading } from "@/components/Loading";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { UserService } from "@/services/UserService";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -11,8 +11,6 @@ import { FaEye, FaEyeSlash   } from "react-icons/fa";
 import { setUserLogin } from "@/redux/features/userSlice";
 import { TOKEN, USER_LOGIN } from "@/util/config";
 import {Notification} from "@/components/Notification/Notification";
-// import { notification } from "antd";
-import { Button, notification, Space } from 'antd';
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -28,15 +26,7 @@ export default function LoginForm() {
 
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (type, title, description) => {
-    api[type]({
-      message: title,
-      description:
-        description,
-    });
-  };
+ 
 
   const formik = useFormik({
     initialValues: {
@@ -52,18 +42,11 @@ export default function LoginForm() {
         dispatch(setUserLogin(data.userLogin));
         localStorage.setItem(USER_LOGIN, JSON.stringify(data?.userLogin));
         localStorage.setItem(TOKEN, JSON.stringify(data?.userLogin.accessToken));
-        // notification.success({
-        //   message: "Login successfully!",
-        //   description: "",
-        // })
-        openNotificationWithIcon('success', 'Login successfully!');
+        Notification("success", "Login successfully!", "")
         router.push("/");
       } catch (err) {
-        // notification.error({
-        //   message: "Login failed!",
-        //   description: err?.response.data,
-        // });
-        openNotificationWithIcon('error', "Login failed!", err?.response.data);
+        Notification("error", "Login failed!", err?.response.data)
+
 
       } finally {
         setLoading(false);
