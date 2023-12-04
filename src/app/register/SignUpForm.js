@@ -18,17 +18,20 @@ const SignUpSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
     username: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
+    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match!').required('Required')
 });
 
 export default function SignUpForm() {
     const [loading, setLoading] = useState(false);
-    const [isShowPassword, setIsShowPassword] = useState(false);  
+    const [isShowPassword, setIsShowPassword] = useState(false);
+    const [isShowConfirm, setIsShowConfirm] = useState(false);
     const router = useRouter();
 
     const formik = useFormik({
       initialValues: {
         email: '',
         password: '',
+        confirmPassword: '',
         username: '',
         name: '',
         phoneNumber: ''
@@ -108,6 +111,28 @@ export default function SignUpForm() {
           </div>
               </div>
               {touched.password && errors.password && <div className="text-red-500 text-xs italic">{errors.password}</div>}
+            </div>
+            <div className="space-y-2 mt-4">
+              <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
+                  Confirm Password
+              </label>
+              <div className="relative">
+                <input className="w-full content-center text-base px-4 py-2 border-2 text-slate-500 border-gray-300 rounded-lg focus:outline-none focus:border-green-600" name="confirmPassword" type={isShowConfirm ? "text" : "password"} placeholder="Confirm your password" value={values.confirmPassword} onChange={handleChange} />
+                <div className="absolute top-1/3 right-3 cursor-pointer" onClick={() => {
+            setIsShowConfirm(!isShowConfirm)
+          }}>
+            {values.confirmPassword ? (
+				isShowConfirm ? (
+					<FaEyeSlash className="text-slate-700"  />
+				) : (
+					<FaEye className="text-slate-700" />
+				)
+			) : (
+			""
+			)}
+          </div>
+              </div>
+              {touched.confirmPassword && errors.confirmPassword && <div className="text-red-500 text-xs italic">{errors.confirmPassword}</div>}
             </div>
             <div className="space-y-2 mt-4">
               <label className="mb-5 text-sm font-medium text-gray-100 tracking-wide">
