@@ -145,7 +145,7 @@ export default function SignUpForm() {
             <button type="submit" className="w-full flex justify-center bg-green-400 my-4 hover:bg-green-600 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
               Sign up
             </button>
-            <div className="text-sm text-center">
+            <div className="text-sm text-left">
               <span className="italic">You have account? </span>
               <a href="/login" className="text-green-400 hover:text-green-600 duration-500 font-semibold tracking-wide hover:underline hover:underline-offset-1">
                 Go to login

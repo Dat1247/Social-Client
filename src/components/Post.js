@@ -32,7 +32,7 @@ export const Post = ({post}) => {
                 <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
             </div>
             <div className="flex items-center ml-3">
-                <p className="font-bold cursor-pointer">takeiteasy</p>
+                <p className="font-bold cursor-pointer">{post?.name}</p>
                 <BsDot />
                 <p className="text-sm text-slate-400">2h ago</p>
             </div>
@@ -73,7 +73,7 @@ export const Post = ({post}) => {
         <div>
             <p> 
                 <span className="font-bold mr-1 cursor-pointer">
-                    takeiteasy 
+                    {post?.name} 
                 </span>
                 {post.content}
             </p>
@@ -85,7 +85,7 @@ export const Post = ({post}) => {
             <BsChatSquare className="cursor-pointer text-lg" onClick={handleClickComment} />
         </div>
         <div className="my-2">
-            <p className="font-semibold text-sm cursor-pointer mb-2">{post.numberOfLike} likes</p>
+            <p className="font-semibold text-sm cursor-pointer mb-2">{post.likes} likes</p>
             <p className="text-slate-400 cursor-pointer text-sm">
                 {post.numberOfComment === 0 ? 'No have comment!' : `View all ${post.numberOfComment} comments` }
             </p>
