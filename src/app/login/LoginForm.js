@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash   } from "react-icons/fa";
 import { setUserLogin } from "@/redux/features/userSlice";
 import { TOKEN, USER_LOGIN } from "@/util/config";
 import {Notification} from "@/components/Notification/Notification";
+// import { cookies } from 'next/headers'
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -42,6 +43,7 @@ export default function LoginForm() {
         dispatch(setUserLogin(data.userLogin));
         localStorage.setItem(USER_LOGIN, JSON.stringify(data?.userLogin));
         localStorage.setItem(TOKEN, JSON.stringify(data?.userLogin.accessToken));
+        // cookies().set(USER_LOGIN, JSON.stringify(data?.userLogin));
         Notification("success", "Login successfully!", "")
         router.push("/");
       } catch (err) {
