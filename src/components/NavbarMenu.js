@@ -1,9 +1,20 @@
+'use client'
+
+import { USER_LOGIN } from "@/util/config";
+import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {AiFillHome, AiOutlineSearch, AiFillHeart} from 'react-icons/ai';
 import {FaBars} from 'react-icons/fa'
 
 export const NavbarMenu = () => {
+    const [userProfile, setUserProfile] = useState({})
+
+    useEffect(() => {
+      setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
+  
+    }, [])
+
   return <div className="w-80  h-screen py-8 px-6">
     <div className="flex flex-col h-full">
         <Link href={"/"} className="logo text-2xl font-bold tracking-wider">Social Clone</Link>
@@ -19,7 +30,7 @@ export const NavbarMenu = () => {
                    <AiFillHeart />Notification
                 </Link>
                 <Link className="mb-4 flex items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href={'/'}>
-                    <img className="rounded-full mr-2 w-5 h-5" alt="avatar" src="https://cdn.kinocheck.com/i/w=480/pmrjs5090t.jpg"  />
+                    {userProfile.avatar && <Image width={20} height={20} className="rounded-full mr-2 cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
                     Profile
                 </Link>
             </ul>

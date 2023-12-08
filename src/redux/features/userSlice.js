@@ -1,15 +1,7 @@
 
-import { USER_LOGIN } from "@/util/config";
 import { createSlice } from "@reduxjs/toolkit";
-import { cookies } from "next/headers";
 
 let ULogin = {};
-
-try {
-    ULogin = JSON.parse(window.localStorage.getItem(USER_LOGIN)) || {}
-} catch(err) {
-    console.error(err);
-}
 
 const initialState = {
     arrUser: [],
@@ -22,7 +14,6 @@ export const userSlice = createSlice({
     reducers: {
         setUserLogin: (state, action) => {
             state.userLogin = action.payload;
-            cookies().set(USER_LOGIN, JSON.stringify(data?.userLogin));
 
         }
     }

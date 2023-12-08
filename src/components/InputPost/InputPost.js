@@ -1,41 +1,32 @@
 'use client'
 import { useAppSelector } from "@/redux/store";
 import { USER_LOGIN } from "@/util/config";
-import { cookies } from "next/headers";
 import Image from "next/image";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 export default function InputPost() {
-  const userLogin = cookies().get(USER_LOGIN);
-  // let userLogin = {}
-  // // const {userLogin} = useAppSelector(state => state.userSlice);
+  const [userProfile, setUserProfile] = useState({});
+  const [content, setContent] = useState("");
 
-  // useEffect(() => {
-  //   userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
-  // }, [])
+  useEffect(() => {
+    setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
 
-  console.log({userLogin})
+  }, []);
+
+  console.log("COntent: ", content)
 
   return <div className="max-w-md w-96">
-          <Suspense fallback={<p>Load</p>}>
-
-     <div className="flex gap-2">
+    <Suspense fallback={<p>Load</p>}>
+     <div className="flex items-center gap-2">
         <div>
-            <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={userLogin?.avatar} alt="avatar" />
-          
-
+          {userProfile.avatar && <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
         </div>
         {
-         userLogin && ( <textarea value={""}
+         userProfile && ( <textarea value={content}
                     onChange={e => setContent(e.target.value)}
-                    className="grow p-3 h-14" placeholder={`Whats on your mind?`} />)
+                    className="grow p-3 h-14 text-slate-700" placeholder={`Whats on your mind?`} />)
         }
       </div>
-      {/* {isUploading && (
-        <div>
-          <Preloader />
-        </div>
-      )} */}
       {/* {uploads.length > 0 && (
         <div className="flex gap-2">
           {uploads.map(upload => (
@@ -69,6 +60,6 @@ export default function InputPost() {
           }} className="bg-socialBlue text-white px-6 py-1 rounded-md">Share</button>
         </div>
       </div>
-      </Suspense>
+    </Suspense>
   </div>;
 }
