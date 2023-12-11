@@ -7,7 +7,7 @@ export const UserService = {
     register: (user) => {
         return BaseService.post(`user/register`, user)
     },
-    getUserProfile: (id) => {
-        return BaseService.get(`user/get-user-detail-by-id/${id}`)
+    getUserProfile: () => {
+        return BaseService.get(`user/get-profile`)
     }
 }
