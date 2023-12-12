@@ -3,13 +3,18 @@ import { useAppSelector } from "@/redux/store";
 import { USER_LOGIN } from "@/util/config";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
+import { Select, Space } from 'antd';
 import { AiOutlineClose } from "react-icons/ai";
+import { Notification } from "../Notification/Notification";
+import { PostService } from "@/services/PostService";
+
 
 export default function InputPost() {
   const [userProfile, setUserProfile] = useState({});
   const [uploads, setUploads] = useState([]);
   const [newPost, setNewPost] = useState({
     content: '',
+    viewMode: 'everyone',
     uploads: []
   });
 
@@ -46,8 +51,28 @@ export default function InputPost() {
     setNewPost({...newPost, uploads: newPostUploads});
   }
 
-  console.log("uploads: ", uploads);
-  console.log("new post: ", newPost)
+
+  const createPost = async (newPost) => {
+    console.log("Create post: ", newPost)
+    let formData = new FormData();
+
+    // console.log(`${newPost['viewMode']} --- ${newPost.length}`);
+    formData.append("content", newPost['content'])
+    formData.append("viewMode", newPost['viewMode'])
+    newPost.uploads.forEach(upload => {
+      formData.append("Files", upload, upload.name)
+    })
+
+    try {
+      const result = await PostService.createPost(formData);
+
+      console.log({result})
+    } catch(err) {
+      Notification("error", "Create post failed!", err?.response.data)
+
+    }
+  }
+
 
 
   return <div className="max-w-md w-96">
@@ -87,16 +112,36 @@ export default function InputPost() {
           </label>
         </div>
         <div>
-          <button className="flex gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-            </svg>
-            <span className="hidden md:block">Mood</span>
-          </button>
+          <Select
+            defaultValue={newPost.viewMode}
+            style={{
+              width: 120,
+            }}
+            onSelect={(e, option) => {
+              setNewPost({...newPost, viewMode: e})
+            }}
+            options={[
+              {
+                value: 'everyone',
+                label: 'Everyone',
+              },
+              {
+                value: 'friends',
+                label: 'Friends',
+              },
+              {
+                value: 'only me',
+                label: 'Only me',
+              },
+            ]}
+          />
         </div>
         <div className="grow text-right">
           <button onClick={() => {
-            console.log("Create post: ", newPost)
+            if(newPost.content === '' && newPost.uploads.length <= 0) return;
+            console.log("Before create: ", newPost)
+            if(newPost.viewMode === '') return;
+            createPost(newPost);
           }} className="bg-socialBlue text-white px-6 py-1 rounded-md">Create</button>
         </div>
       </div>
