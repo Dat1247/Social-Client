@@ -5,7 +5,7 @@ import { PostService } from "@/services/PostService";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getArrPosts } from "@/redux/features/postSlice";
 
-const getPosts = async() => {
+export const getPosts = async() => {
     try {
         const res = await PostService.getPosts();
         const data = await res.data;

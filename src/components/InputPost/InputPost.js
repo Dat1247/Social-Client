@@ -1,22 +1,46 @@
 'use client'
-import { useAppSelector } from "@/redux/store";
-import { USER_LOGIN } from "@/util/config";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { STATUS_CODE, USER_LOGIN } from "@/util/config";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
 import { Select, Space } from 'antd';
 import { AiOutlineClose } from "react-icons/ai";
 import { Notification } from "../Notification/Notification";
 import { PostService } from "@/services/PostService";
+import { getPosts } from "../ListPosts/ListPosts";
+import { getArrPosts } from "@/redux/features/postSlice";
+import { TiWorld } from "react-icons/ti";
+import { FaUserFriends } from "react-icons/fa";
+import { TbLock } from "react-icons/tb";
 
+
+const optionsStatus = [
+  {
+    value: 'everyone',
+    label: 'Everyone',
+    icon: <TiWorld />
+  },
+  {
+    value: 'friends',
+    label: 'Friends',
+    icon: <FaUserFriends />
+  },
+  {
+    value: 'only me',
+    label: 'Only me',
+    icon: <TbLock />
+  },
+]
 
 export default function InputPost() {
   const [userProfile, setUserProfile] = useState({});
   const [uploads, setUploads] = useState([]);
   const [newPost, setNewPost] = useState({
     content: '',
-    viewMode: 'everyone',
+    viewMode: <p>Everyone</p>,
     uploads: []
   });
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
@@ -53,22 +77,31 @@ export default function InputPost() {
 
 
   const createPost = async (newPost) => {
-    console.log("Create post: ", newPost)
     let formData = new FormData();
 
-    // console.log(`${newPost['viewMode']} --- ${newPost.length}`);
     formData.append("content", newPost['content'])
     formData.append("viewMode", newPost['viewMode'])
     newPost.uploads.forEach(upload => {
-      formData.append("Files", upload, upload.name)
+      formData.append("myFile", upload, upload.name)
     })
 
     try {
-      const result = await PostService.createPost(formData);
+      const {status, data} = await PostService.createPost(formData);
 
-      console.log({result})
+      if(status === STATUS_CODE.CREATED) {
+        getPosts().then(res => {
+          dispatch(getArrPosts(res))
+        })
+        setNewPost({
+          content: '',
+          viewMode: 'everyone',
+          uploads: []
+        });
+        setUploads([]);
+      }
     } catch(err) {
-      Notification("error", "Create post failed!", err?.response.data)
+      Notification("error", "Create post failed!");
+      console.log(err)
 
     }
   }
@@ -113,33 +146,29 @@ export default function InputPost() {
         </div>
         <div>
           <Select
-            defaultValue={newPost.viewMode}
+            value={newPost.viewMode}
             style={{
               width: 120,
             }}
             onSelect={(e, option) => {
-              setNewPost({...newPost, viewMode: e})
+              setNewPost({...newPost, viewMode: e});
+              console.log({newPost})
             }}
-            options={[
-              {
-                value: 'everyone',
-                label: 'Everyone',
-              },
-              {
-                value: 'friends',
-                label: 'Friends',
-              },
-              {
-                value: 'only me',
-                label: 'Only me',
-              },
-            ]}
+            options={optionsStatus}
+            optionRender={(option) => {
+              return <Space>
+                <span>
+                  {option.data.icon}
+                </span>
+                {option.data.label}
+              </Space>
+              }
+            }
           />
         </div>
         <div className="grow text-right">
           <button onClick={() => {
             if(newPost.content === '' && newPost.uploads.length <= 0) return;
-            console.log("Before create: ", newPost)
             if(newPost.viewMode === '') return;
             createPost(newPost);
           }} className="bg-socialBlue text-white px-6 py-1 rounded-md">Create</button>
