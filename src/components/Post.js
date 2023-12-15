@@ -6,17 +6,29 @@ import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs';
 import { MdOutlineEdit } from "react-icons/md";
 import { LiaTrashSolid } from "react-icons/lia";
-import {Popover} from 'antd'
+import { TiWorld } from "react-icons/ti";
+import { FaUserFriends } from "react-icons/fa";
+import { TbLock } from "react-icons/tb";
+import {Button, Popconfirm, Popover} from 'antd';
+import moment from "moment";
+import { IMAGE_URL, STATUS_CODE } from "@/util/config";
+import { PostService } from "@/services/PostService";
+import { getPosts } from "./ListPosts/ListPosts";
+import { getArrPosts } from "@/redux/features/postSlice";
+import { useAppDispatch } from "@/redux/store";
+import { Notification } from "./Notification/Notification";
 
 export const Post = ({post}) => {
     const [isLike, setIsLike] = useState(false);
     const [open, setOpen] = useState(false);
-    const hide = () => {
-      setOpen(false);
-    };
-    const handleOpenChange = (newOpen) => {
-      setOpen(newOpen);
-    };
+
+    const dispatch = useAppDispatch()
+    let changeViewMode = post?.viewMode;
+    console.log({post})
+
+      const handleOpenChange = (newOpen) => {
+        setOpen(newOpen);
+      };
 
     const handleChangeLike = () => {
         setIsLike(!isLike)
@@ -25,39 +37,75 @@ export const Post = ({post}) => {
         console.log("Get comments")
     }
 
+    const deletePost = async () => {
+        try {
+            const result = await PostService.deletePost(post?.postID)
+
+            if(result.status === STATUS_CODE.SUCCESS) {
+                getPosts().then(res => {
+                    dispatch(getArrPosts(res))
+                  })
+                Notification("success", "Deleted posts successfully!");
+                setOpen(false);
+            }
+        } catch(err) {
+            console.log(err);
+            Notification("error", "Deleted posts failed!", err?.response.data);
+
+        }
+    }
+
   return <div className="max-w-md w-96 my-5">
     <div className="flex items-center justify-between mb-5">
         <div className="flex items-center">
             <div>
                 <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
             </div>
-            <div className="flex items-center ml-3">
+            <div className="flex ml-3 flex-col">
                 <p className="font-bold cursor-pointer">{post?.name}</p>
-                <BsDot />
-                <p className="text-sm text-slate-400">2h ago</p>
+                <div className="flex items-center text-sm text-slate-400">
+                    <p className="">
+                        {moment(post?.updatedAt).startOf('hour').fromNow()}
+                    </p>
+                    <BsDot />
+                    <span>{(changeViewMode === 'only me') || (changeViewMode === 'Only me') ? <TbLock /> : (changeViewMode === 'friends') || (changeViewMode === 'Friend') ? <FaUserFriends /> : <TiWorld />}</span>
+                </div>
             </div>
         </div>
         <div>
         <Popover
             content={
                 <Fragment>
-                    <div className="flex gap-1 items-center cursor-pointer">
+                    <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
+                        console.log("Edit")
+                    }}>
                         <MdOutlineEdit />
                         <span className="text-sm">
                             Edit
                         </span>
                     </div>
-                    <div className="flex gap-1 items-center mt-1 cursor-pointer">
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this post?"
+                        onConfirm={() => {
+                            deletePost()
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                        className="flex gap-1 items-center mt-1 cursor-pointer popoverDelete"
+                    >
                         <LiaTrashSolid />
                         <span className="text-sm">
                             Delete
                         </span>
-                    </div>
+                    </Popconfirm>
                 </Fragment>
             }
             title=""
             trigger="click"
             placement="bottom"
+            open={open}
+            onOpenChange={handleOpenChange}
         >
             <button type="primary">
                 <AiOutlineMore className="hover:text-slate-400" />
@@ -67,8 +115,10 @@ export const Post = ({post}) => {
         </div>
     </div>
     <div className="mb-5">
-        <div className="mb-3">
-            <img className="w-full" src={'/default-img/post.jpg'} alt="image" />
+        <div className="mb-3 grid grid-cols-3 gap-2 ">
+            {post?.FileUpload.map((file, index) => {
+                return <img className="w-full" src={`${IMAGE_URL}${file}`} alt="image" key={index} />
+            })}
         </div>
         <div>
             <p> 

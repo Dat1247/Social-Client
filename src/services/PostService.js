@@ -7,5 +7,9 @@ export const PostService = {
 
     createPost: (newPost) => {
         return BaseService.post(`post/create-post`, newPost)
+    },
+    
+    deletePost: (idPost) => {
+        return BaseService.delete(`post/${idPost}`)
     }
 }

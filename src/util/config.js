@@ -1,5 +1,5 @@
 export const API_URL = "http://localhost:1234/api/v1";
-// export const IMAGE_URL = "http://localhost:1234/";
+export const IMAGE_URL = "http://localhost:1234/";
 
 export const USER_LOGIN = "userLogin";
 export const TOKEN = "token";

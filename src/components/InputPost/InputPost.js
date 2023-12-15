@@ -37,7 +37,7 @@ export default function InputPost() {
   const [uploads, setUploads] = useState([]);
   const [newPost, setNewPost] = useState({
     content: '',
-    viewMode: <p>Everyone</p>,
+    viewMode: 'Everyone',
     uploads: []
   });
   const dispatch = useAppDispatch()
