@@ -55,6 +55,9 @@ export const Post = ({post}) => {
         }
     }
 
+    // console.log(moment(86400000 < moment().valueOf() - moment(post?.updatedAt).valueOf()));
+    console.log(moment(post?.updatedAt).fromNow().valueOf())
+
   return <div className="max-w-md w-96 my-5">
     <div className="flex items-center justify-between mb-5">
         <div className="flex items-center">

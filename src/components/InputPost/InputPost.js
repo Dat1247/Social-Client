@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { STATUS_CODE, USER_LOGIN } from "@/util/config";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
-import { Select, Space } from 'antd';
+import { Select, Space, Input } from 'antd';
 import { AiOutlineClose } from "react-icons/ai";
 import { Notification } from "../Notification/Notification";
 import { PostService } from "@/services/PostService";
@@ -12,6 +12,7 @@ import { getArrPosts } from "@/redux/features/postSlice";
 import { TiWorld } from "react-icons/ti";
 import { FaUserFriends } from "react-icons/fa";
 import { TbLock } from "react-icons/tb";
+import { CustomProvider } from "../CustomProvider/CustomProvider";
 
 
 const optionsStatus = [
@@ -30,7 +31,9 @@ const optionsStatus = [
     label: 'Only me',
     icon: <TbLock />
   },
-]
+];
+
+const { TextArea } = Input;
 
 export default function InputPost() {
   const [userProfile, setUserProfile] = useState({});
@@ -112,10 +115,10 @@ export default function InputPost() {
     <Suspense fallback={<p>Load</p>}>
      <div className="flex items-center gap-2">
         <div>
-          {userProfile.avatar && <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
+          {userProfile.avatar && <Image width={30} height={30} className="w-10 h-10 rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
         </div>
         {
-         userProfile && ( <textarea value={newPost.content}
+         userProfile && ( <TextArea rows={3} value={newPost.content}
                     onChange={e => setNewPost({...newPost, content: e.target.value})}
                     className="grow p-3 h-14 text-slate-700" placeholder={`Whats on your mind?`} />)
         }
@@ -134,9 +137,9 @@ export default function InputPost() {
           ))}
         </div>
       )}
-      <div className="flex gap-5 items-center mt-2">
+      <div className="flex gap-2 items-center mt-2">
         <div>
-          <label className="flex gap-1">
+          <label className="flex gap-1 cursor-pointer bg-slate-600 text-white hover:bg-slate-700 hover:text-white duration-500 px-4 py-1 rounded-md">
             <input type="file" className="hidden" multiple onChange={addPhotos}  />
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -144,7 +147,7 @@ export default function InputPost() {
             <span className="hidden md:block">Photos</span>
           </label>
         </div>
-        <div>
+        <CustomProvider>
           <Select
             value={newPost.viewMode}
             style={{
@@ -165,15 +168,17 @@ export default function InputPost() {
               }
             }
           />
-        </div>
+        </CustomProvider>
         <div className="grow text-right">
           <button onClick={() => {
             if(newPost.content === '' && newPost.uploads.length <= 0) return;
             if(newPost.viewMode === '') return;
             createPost(newPost);
-          }} className="bg-socialBlue text-white px-6 py-1 rounded-md">Create</button>
+          }} className="bg-emerald-200 text-slate-600 hover:bg-emerald-500 hover:text-white duration-500 px-4 py-1 rounded-md">Create</button>
         </div>
       </div>
     </Suspense>
+    <div className="h-0.5 w-full mt-5 bg-slate-600" />
+
   </div>;
 }
