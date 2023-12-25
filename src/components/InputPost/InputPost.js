@@ -1,7 +1,6 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { STATUS_CODE, USER_LOGIN } from "@/util/config";
-import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
 import { Select, Space, Input } from 'antd';
 import { AiOutlineClose } from "react-icons/ai";
@@ -115,7 +114,7 @@ export default function InputPost() {
     <Suspense fallback={<p>Load</p>}>
      <div className="flex items-center gap-2">
         <div>
-          {userProfile.avatar && <Image width={30} height={30} className="w-10 h-10 rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
+          {userProfile.avatar && <img className="w-10 h-10 max-w-none rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
         </div>
         {
          userProfile && ( <TextArea rows={3} value={newPost.content}

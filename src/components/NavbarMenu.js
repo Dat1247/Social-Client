@@ -1,7 +1,7 @@
 'use client'
 
 import { USER_LOGIN } from "@/util/config";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {AiFillHome, AiOutlineSearch, AiFillHeart} from 'react-icons/ai';
@@ -30,7 +30,7 @@ export const NavbarMenu = () => {
                    <AiFillHeart />Notification
                 </Link>
                 <Link className="mb-4 flex items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href={'/'}>
-                    {userProfile.avatar && <Image width={20} height={20} className="rounded-full mr-2 cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
+                    {userProfile.avatar && <img width={20} height={20} className="rounded-full mr-2 cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
                     Profile
                 </Link>
             </ul>

@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image";
 import React, { Fragment, useState } from "react";
 import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs';
@@ -11,7 +10,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { TbLock } from "react-icons/tb";
 import {Button, Popconfirm, Popover} from 'antd';
 import moment from "moment";
-import { IMAGE_URL, STATUS_CODE } from "@/util/config";
+import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
 import { getArrPosts } from "@/redux/features/postSlice";
@@ -56,19 +55,21 @@ export const Post = ({post}) => {
     }
 
     // console.log(moment(86400000 < moment().valueOf() - moment(post?.updatedAt).valueOf()));
-    console.log(moment(post?.updatedAt).fromNow().valueOf())
+    console.log(moment(post?.updatedAt).valueOf())
+    console.log(moment(new Date()).valueOf())
+    console.log("Check: ", moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf() < 86400000 ? `In a day + ${moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf()}` : `Not in a day ${moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf()}`)
 
   return <div className="max-w-md w-96 my-5">
     <div className="flex items-center justify-between mb-5">
         <div className="flex items-center">
             <div>
-                <Image width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
+                <img width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
             </div>
             <div className="flex ml-3 flex-col">
                 <p className="font-bold cursor-pointer">{post?.name}</p>
                 <div className="flex items-center text-sm text-slate-400">
                     <p className="">
-                        {moment(post?.updatedAt).startOf('hour').fromNow()}
+                        {moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf() < TIME_OF_DATE_TO_MILLISECONDS ? moment(post?.updatedAt).fromNow().valueOf() : moment(post?.updatedAt).format("DD/MM/YYYY HH:mm")}
                     </p>
                     <BsDot />
                     <span>{(changeViewMode === 'only me') || (changeViewMode === 'Only me') ? <TbLock /> : (changeViewMode === 'friends') || (changeViewMode === 'Friend') ? <FaUserFriends /> : <TiWorld />}</span>
