@@ -11,5 +11,13 @@ export const PostService = {
     
     deletePost: (idPost) => {
         return BaseService.delete(`post/${idPost}`)
+    },
+
+    getLikeOfPost: (idPost) => {
+        return BaseService.get(`like/get-like/${idPost}`)
+    },
+
+    likePost: (idPost) => {
+        return BaseService.post(`like/like-post/${idPost}`)
     }
 }

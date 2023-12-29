@@ -1,9 +1,10 @@
 'use client'
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Post } from "../Post";
 import { PostService } from "@/services/PostService";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getArrPosts } from "@/redux/features/postSlice";
+import { USER_LOGIN } from "@/util/config";
 
 export const getPosts = async() => {
     try {
@@ -16,7 +17,7 @@ export const getPosts = async() => {
 }
 
 export default function ListPosts() {
-    
+    const [userProfile, setUserProfile] = useState({});
     const {arrPost} = useAppSelector(state => state.postSlice)
     const dispatch = useAppDispatch();
     
@@ -24,7 +25,9 @@ export default function ListPosts() {
     useEffect(() => {
         const data = getPosts().then((res) => {
             dispatch(getArrPosts(res));
-        })
+        });
+        setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
+
     }, [dispatch])
 
     return <>
@@ -37,7 +40,7 @@ export default function ListPosts() {
                         <div className="glimmer-line" />
                     </div>
                 </>}>
-                    <Post post={post} />
+                    <Post post={post} userProfile={userProfile} />
                 </Suspense>
             </div>
       })}
