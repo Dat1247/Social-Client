@@ -21,6 +21,9 @@ module.exports = {
       height: {
         '0.5': '1px'
       },
+      maxWidth: {
+        '700px': '700px'
+      },
       boxShadow: {
         '3xl': '3px 0px 11px 3px rgba(94,93,93,0.74)'
       }

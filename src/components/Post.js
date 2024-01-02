@@ -43,9 +43,6 @@ export const Post = ({post, userProfile}) => {
         }).catch(err => console.log(`err: ${err}`))
     }, [post]);
 
-    // let changeViewMode = post?.viewMode;
-    
-
       const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
       };
@@ -92,7 +89,7 @@ export const Post = ({post, userProfile}) => {
         return isYourLike ? <AiFillHeart className="cursor-pointer text-lg text-red-600" onClick={handleChangeLike} /> : <AiOutlineHeart className="cursor-pointer text-lg" onClick={handleChangeLike} />
     }
 
-    console.log("Liked: ", isYourLike, " post: ", post)
+    // console.log("Liked: ", isYourLike, " post: ", post)
 
   return <div className="max-w-md w-96 my-5">
     <div className="flex items-center justify-between mb-5">
