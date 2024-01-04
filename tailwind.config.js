@@ -24,6 +24,13 @@ module.exports = {
       maxWidth: {
         '700px': '700px'
       },
+      minWidth: {
+        '500px': '500px'
+      },
+      minHeight: {
+        '180px': '180px',
+        '800px': '800px'
+      },
       boxShadow: {
         '3xl': '3px 0px 11px 3px rgba(94,93,93,0.74)'
       }
