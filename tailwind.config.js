@@ -14,6 +14,9 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontSize: {
+        'ssm': '13px'
+      },
       width: {
         '0.5': '1px',
         '80': '21rem'
@@ -27,8 +30,11 @@ module.exports = {
       minWidth: {
         '500px': '500px'
       },
+      maxHeight: {
+        '800px': '800px'
+      },
       minHeight: {
-        '180px': '180px',
+        '560px': '560px',
         '800px': '800px'
       },
       boxShadow: {
