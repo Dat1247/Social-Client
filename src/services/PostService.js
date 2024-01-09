@@ -20,5 +20,8 @@ export const PostService = {
     likePost: (idPost) => {
         return BaseService.post(`like/like-post/${idPost}`)
     },
+    getPostById: (idPost) => {
+        return BaseService.get(`post/get-post-by-id/${idPost}`)
+    }
     
 }

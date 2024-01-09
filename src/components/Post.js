@@ -13,7 +13,7 @@ import moment from "moment";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
-import { getArrPosts } from "@/redux/features/postSlice";
+import { getArrPosts, openPostModal, setPostIdOfModal } from "@/redux/features/postSlice";
 import { useAppDispatch } from "@/redux/store";
 import { Notification } from "./Notification/Notification";
 
@@ -98,7 +98,7 @@ export const Post = ({post, userProfile}) => {
                 <img width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={'/default-img/avatar.jpg'} alt="avatar" />
             </div>
             <div className="flex ml-3 flex-col">
-                <p className="font-bold cursor-pointer">{post?.name}</p>
+                <p className="font-bold cursor-pointer">{post?.authorName}</p>
                 <div className="flex items-center text-sm text-slate-400">
                     <p className="">
                         {moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf() < TIME_OF_DATE_TO_MILLISECONDS ? moment(post?.updatedAt).fromNow().valueOf() : moment(post?.updatedAt).format("DD/MM/YYYY HH:mm")}
@@ -109,45 +109,44 @@ export const Post = ({post, userProfile}) => {
             </div>
         </div>
         <div>
-        <Popover
-            content={
-                <Fragment>
-                    <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
-                        console.log("Edit")
-                    }}>
-                        <MdOutlineEdit />
-                        <span className="text-sm">
-                            Edit
-                        </span>
-                    </div>
-                    <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this post?"
-                        onConfirm={() => {
-                            deletePost()
-                        }}
-                        okText="Yes"
-                        cancelText="No"
-                        className="flex gap-1 items-center mt-1 cursor-pointer popoverDelete"
-                    >
-                        <LiaTrashSolid />
-                        <span className="text-sm">
-                            Delete
-                        </span>
-                    </Popconfirm>
-                </Fragment>
-            }
-            title=""
-            trigger="click"
-            placement="bottom"
-            open={open}
-            onOpenChange={handleOpenChange}
-        >
-            <button type="primary">
-                <AiOutlineMore className="hover:text-slate-400" />
-            </button>
-        </Popover>
-
+            <Popover
+                content={
+                    <Fragment>
+                        <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
+                            console.log("Edit")
+                        }}>
+                            <MdOutlineEdit />
+                            <span className="text-sm">
+                                Edit
+                            </span>
+                        </div>
+                        <Popconfirm
+                            title="Delete the task"
+                            description="Are you sure to delete this post?"
+                            onConfirm={() => {
+                                deletePost()
+                            }}
+                            okText="Yes"
+                            cancelText="No"
+                            className="flex gap-1 items-center mt-1 cursor-pointer popoverDelete"
+                        >
+                            <LiaTrashSolid />
+                            <span className="text-sm">
+                                Delete
+                            </span>
+                        </Popconfirm>
+                    </Fragment>
+                }
+                title=""
+                trigger="click"
+                placement="bottom"
+                open={open}
+                onOpenChange={handleOpenChange}
+            >
+                <button type="primary">
+                    <AiOutlineMore className="hover:text-slate-400" />
+                </button>
+            </Popover>
         </div>
     </div>
     <div className="mb-5">
@@ -159,7 +158,7 @@ export const Post = ({post, userProfile}) => {
         <div>
             <p> 
                 <span className="font-bold mr-1 cursor-pointer">
-                    {post?.name} 
+                    {post?.authorName} 
                 </span>
                 {post.content}
             </p>
@@ -171,8 +170,11 @@ export const Post = ({post, userProfile}) => {
             <BsChatSquare className="cursor-pointer text-lg" onClick={handleClickComment} />
         </div>
         <div className="my-2">
-            <p className="font-semibold text-sm cursor-pointer mb-2">{post.likes} likes</p>
-            <p className="text-slate-400 cursor-pointer text-sm">
+            <p className="font-semibold text-sm cursor-pointer mb-2">{post.numberOfLike} likes</p>
+            <p className="text-slate-400 cursor-pointer text-sm" onClick={() => {
+                dispatch(openPostModal())
+                dispatch(setPostIdOfModal(post.postID))
+            }}>
                 {post.numberOfComment === 0 ? 'No have comment!' : `View all ${post.numberOfComment} comments` }
             </p>
         </div>
