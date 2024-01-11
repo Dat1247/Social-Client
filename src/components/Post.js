@@ -1,14 +1,14 @@
 "use client"
 
 import React, { Fragment, useEffect, useState } from "react";
-import {AiOutlineHeart, AiFillHeart, AiOutlineMore } from 'react-icons/ai';
+import {AiOutlineMore, AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import {BsChatSquare, BsDot} from 'react-icons/bs';
 import { MdOutlineEdit } from "react-icons/md";
 import { LiaTrashSolid } from "react-icons/lia";
 import { TiWorld } from "react-icons/ti";
 import { FaUserFriends } from "react-icons/fa";
 import { TbLock } from "react-icons/tb";
-import {Button, Popconfirm, Popover} from 'antd';
+import {Popconfirm, Popover} from 'antd';
 import moment from "moment";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
@@ -17,7 +17,7 @@ import { getArrPosts, openPostModal, setPostIdOfModal } from "@/redux/features/p
 import { useAppDispatch } from "@/redux/store";
 import { Notification } from "./Notification/Notification";
 
-const getLikesOfPost = async(idPost) => {
+export const getLikesOfPost = async(idPost) => {
     const {data, status} = await PostService.getLikeOfPost(idPost);
     if(status === STATUS_CODE.SUCCESS) {
         return data;
@@ -86,7 +86,7 @@ export const Post = ({post, userProfile}) => {
     }
 
     const showLikesPost = () => {
-        return isYourLike ? <AiFillHeart className="cursor-pointer text-lg text-red-600" onClick={handleChangeLike} /> : <AiOutlineHeart className="cursor-pointer text-lg" onClick={handleChangeLike} />
+        return isYourLike ? <AiFillLike className="cursor-pointer text-lg text-sky-400" onClick={handleChangeLike} /> : <AiOutlineLike className="cursor-pointer text-lg" onClick={handleChangeLike} />
     }
 
     // console.log("Liked: ", isYourLike, " post: ", post)
