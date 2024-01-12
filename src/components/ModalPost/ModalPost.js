@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt, FaUserFriends } from "react-icons/fa";
-import {BsChatSquare, BsDot} from 'react-icons/bs';
+import {BsThreeDots , BsDot} from 'react-icons/bs';
 import { TiWorld } from "react-icons/ti";
 import { TbLock } from "react-icons/tb";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -12,6 +12,7 @@ import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS, USER_LOGIN } from
 import moment from "moment";
 import { getPosts } from "../ListPosts/ListPosts";
 import { getLikesOfPost } from "../Post";
+import { Comment } from "./Comment";
 
 const getPostDetailById = async(id) => {
   try {
@@ -79,48 +80,71 @@ export const ModalPost = () => {
     </div> : <></>
   }
 
-  const renderComments = (arrComments) => {
-    return arrComments?.map((comment) => {
-      return <div key={comment.idComment} className="my-1">
-        <div className="flex gap-2 items-start">
-          <div className="">
-            <img width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={`${comment.authorAvatarComment}`} alt="avatar" />
-          </div>
-          <div className="">
-            <div className="">
-              <div className="content-comment bg-slate-500 py-2 px-3 rounded-2xl text-sm flex flex-col flex-wrap max-w-lg">
-                <p className="font-bold cursor-pointer text-ssm">
-                  {comment.authorNameComment}
-                </p>
-                <p>
-                  {comment.contentComment}
-                </p>
-              </div>
-              <div className="flex items-center gap-4 text-xs tracking-wider pt-0.5 ml-4">
-                <div className="font-semibold cursor-pointer hover:underline">
-                  Like
-                </div>
-                <div className="font-semibold cursor-pointer hover:underline">
-                  Reply
-                </div>
-                <div className="text-slate-300 tracking-normal">
-                  {moment(new Date()).valueOf() - moment(comment?.updatedAtComment).valueOf() < TIME_OF_DATE_TO_MILLISECONDS ? moment(comment?.updatedAtComment).fromNow().valueOf() : moment(comment?.updatedAtComment).format("DD/MM/YYYY HH:mm")}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    })
-  }
+  // const renderComments = (arrComments) => {
+  //   return arrComments?.map((comment) => {
+  //     return <div key={comment.idComment} className="my-1">
+  //         <div>
+  //           <div className="flex gap-2 items-start">
+  //             <div className="">
+  //               <img width={20} height={20} className="w-10 h-10 rounded-full cursor-pointer" src={`${comment.authorAvatarComment}`} alt="avatar" />
+  //             </div>
+  //             <div className="">
+  //               <div className="flex items-center gap-2">
+  //                 <div className="content-comment bg-slate-500 py-2 px-3 rounded-2xl text-sm flex flex-col flex-wrap max-w-lg">
+  //                   <p className="font-bold cursor-pointer text-ssm">
+  //                     {comment.authorNameComment}
+  //                   </p>
+  //                   <p>
+  //                     {comment.contentComment}
+  //                   </p>
+  //                 </div>
+  //                 <div>
+  //                   <BsThreeDots />
+  //                 </div>
+  //               </div>
+  //                 <div className="flex items-center gap-4 text-xs tracking-wider pt-0.5 ml-4">
+  //                   <div className="font-semibold cursor-pointer hover:underline">
+  //                     Like
+  //                   </div>
+  //                   <div className="font-semibold cursor-pointer hover:underline">
+  //                     Reply
+  //                   </div>
+  //                   <div className="text-slate-300 tracking-normal">
+  //                     {moment(new Date()).valueOf() - moment(comment?.updatedAtComment).valueOf() < TIME_OF_DATE_TO_MILLISECONDS ? moment(comment?.updatedAtComment).fromNow().valueOf() : moment(comment?.updatedAtComment).format("DD/MM/YYYY HH:mm")}
+  //                   </div>
+  //                 </div>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //   })
+  // }
 
   const handleChangeComment = (e) => {
     setContentComment(e.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Comment ",contentComment)
+    try {
+
+      const {data, status} = await PostService.createComment({
+        content: contentComment,
+      postID: postDetail.postID
+    }, postDetail.postID);
+    if(status === STATUS_CODE.CREATED) {
+      getPosts().then(res => {
+        dispatch(getArrPosts(res))
+      });
+      getPostDetailById(postIdOfModal).then(res => {
+        setPostDetail(res)
+      });
+      setContentComment("");
+    }
+    console.log("Comment ", {data, status})
+    } catch (err) {
+      console.log("Error ", err)
+    }
   }
 
   return <div className="w-screen h-screen absolute top-0 left-0 " style={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
@@ -194,7 +218,8 @@ export const ModalPost = () => {
               </div>
               <div>
                 <div className="mx-4 py-3">
-                  {renderComments(postDetail?.comments)}
+                  {/* {renderComments(postDetail?.comments)} */}
+                  <Comment arrComments={postDetail?.comments} />
                 </div>
               </div>
             </div>
@@ -204,7 +229,7 @@ export const ModalPost = () => {
                   {userProfile.avatar && <img className="w-10 h-10 max-w-none rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
                 </div>
                 <div className="bg-slate-500 py-2 px-3 rounded-2xl text-sm flex flex-wrap flex-grow">
-                  <form onSubmitCapture={handleSubmit}>
+                  <form onSubmitCapture={handleSubmit} className="flex-grow">
                     <input className="w-11/12 py-1.5 bg-transparent outline-none" value={contentComment} onChange={handleChangeComment} />
                   </form>
                 </div>

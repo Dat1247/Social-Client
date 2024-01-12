@@ -22,6 +22,10 @@ export const PostService = {
     },
     getPostById: (idPost) => {
         return BaseService.get(`post/get-post-by-id/${idPost}`)
+    },
+
+    createComment: (commentObj, idPost) => {
+        return BaseService.post(`comment/create/${idPost}`, commentObj)
     }
     
 }
