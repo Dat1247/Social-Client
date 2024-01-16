@@ -89,8 +89,6 @@ export const Post = ({post, userProfile}) => {
         return isYourLike ? <AiFillLike className="cursor-pointer text-lg text-sky-400" onClick={handleChangeLike} /> : <AiOutlineLike className="cursor-pointer text-lg" onClick={handleChangeLike} />
     }
 
-    // console.log("Liked: ", isYourLike, " post: ", post)
-
   return <div className="max-w-md w-96 my-5">
     <div className="flex items-center justify-between mb-5">
         <div className="flex items-center">
@@ -178,13 +176,13 @@ export const Post = ({post, userProfile}) => {
                 {post.numberOfComment === 0 ? 'No have comment!' : `View all ${post.numberOfComment} comments` }
             </p>
         </div>
-        <form onSubmitCapture={(e) => {
+        {/* <form onSubmitCapture={(e) => {
             e.preventDefault();
             console.log(e.currentTarget);
         }}>
             <input className="border-none outline-none text-sm pr-2 py-1 rounded-t bg-transparent" placeholder="Add a comment..." />
             <button type="submit">Create</button>
-        </form>
+        </form> */}
 
         <div className="h-0.5 w-full mt-5 bg-slate-600" />
     </div>

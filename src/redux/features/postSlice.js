@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     arrPost: [],
     isShowPostModal: false,
-    postIdOfModal: undefined
+    postIdOfModal: undefined,
+    postDetailById: {}
 }
 
 export const postSlice = createSlice({
@@ -21,12 +22,15 @@ export const postSlice = createSlice({
         },
         setPostIdOfModal: (state, action) => {
             state.postIdOfModal = action.payload
+        },
+        setPostDetailById: (state, action) => {
+            state.postDetailById = action.payload
         }
     }
 
 })
 
 export const {
-    getArrPosts, openPostModal, closePostModal, setPostIdOfModal
+    getArrPosts, openPostModal, closePostModal, setPostIdOfModal, setPostDetailById
 } = postSlice.actions;
 export default postSlice.reducer;
