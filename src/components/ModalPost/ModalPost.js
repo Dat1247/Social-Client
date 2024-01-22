@@ -1,9 +1,9 @@
 'use client'
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt, FaUserFriends } from "react-icons/fa";
-import {BsThreeDots , BsDot} from 'react-icons/bs';
+import {BsDot} from 'react-icons/bs';
 import { TiWorld } from "react-icons/ti";
 import { TbLock } from "react-icons/tb";
 import { useAppDispatch, useAppSelector } from "@/redux/store";

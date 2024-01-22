@@ -13,9 +13,10 @@ import moment from "moment";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
-import { getArrPosts, openPostModal, setPostIdOfModal } from "@/redux/features/postSlice";
+import { getArrPosts, openInputPostModal, openPostModal, setPostIdOfModal } from "@/redux/features/postSlice";
 import { useAppDispatch } from "@/redux/store";
 import { Notification } from "./Notification/Notification";
+import { CustomProvider } from "./CustomProvider/CustomProvider";
 
 export const getLikesOfPost = async(idPost) => {
     const {data, status} = await PostService.getLikeOfPost(idPost);
@@ -28,7 +29,6 @@ export const getLikesOfPost = async(idPost) => {
 export const Post = ({post, userProfile}) => {
     const [open, setOpen] = useState(false);
     const [isYourLike, setIsYourLike] = useState(false);
-
     const dispatch = useAppDispatch();
     useEffect(() => {
         const data = getLikesOfPost(post.postID);
@@ -64,7 +64,8 @@ export const Post = ({post, userProfile}) => {
         }
     }
     const handleClickComment = () => {
-        console.log("Get comments")
+        dispatch(openPostModal())
+        dispatch(setPostIdOfModal(post.postID))
     }
 
     const deletePost = async () => {
@@ -107,44 +108,47 @@ export const Post = ({post, userProfile}) => {
             </div>
         </div>
         <div>
-            <Popover
-                content={
-                    <Fragment>
-                        <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
-                            console.log("Edit")
-                        }}>
-                            <MdOutlineEdit />
-                            <span className="text-sm">
-                                Edit
-                            </span>
-                        </div>
-                        <Popconfirm
-                            title="Delete the task"
-                            description="Are you sure to delete this post?"
-                            onConfirm={() => {
-                                deletePost()
-                            }}
-                            okText="Yes"
-                            cancelText="No"
-                            className="flex gap-1 items-center mt-1 cursor-pointer popoverDelete"
-                        >
-                            <LiaTrashSolid />
-                            <span className="text-sm">
-                                Delete
-                            </span>
-                        </Popconfirm>
-                    </Fragment>
-                }
-                title=""
-                trigger="click"
-                placement="bottom"
-                open={open}
-                onOpenChange={handleOpenChange}
-            >
-                <button type="primary">
-                    <AiOutlineMore className="hover:text-slate-400" />
-                </button>
-            </Popover>
+            <CustomProvider>
+                <Popover
+                    content={
+                        <Fragment>
+                            <div className="flex gap-1 items-center cursor-pointer hover:bg-slate-700 px-2 py-1 rounded-md" onClick={() => {
+                                dispatch(openInputPostModal());
+                                setOpen(false);
+                            }}>
+                                <MdOutlineEdit />
+                                <span className="text-sm">
+                                    Edit
+                                </span>
+                            </div>
+                            <Popconfirm
+                                title="Delete the task"
+                                description="Are you sure to delete this post?"
+                                onConfirm={() => {
+                                    deletePost()
+                                }}
+                                okText="Yes"
+                                cancelText="No"
+                                className="flex gap-1 items-center mt-1 cursor-pointer popoverDelete hover:bg-slate-700 px-2 py-1 rounded-md"
+                            >
+                                <LiaTrashSolid />
+                                <span className="text-sm">
+                                    Delete
+                                </span>
+                            </Popconfirm>
+                        </Fragment>
+                    }
+                    title=""
+                    trigger="click"
+                    placement="bottom"
+                    open={open}
+                    onOpenChange={handleOpenChange}
+                >
+                    <button type="primary">
+                        <AiOutlineMore className="hover:text-slate-400" />
+                    </button>
+                </Popover>
+            </CustomProvider>
         </div>
     </div>
     <div className="mb-5">
@@ -158,7 +162,11 @@ export const Post = ({post, userProfile}) => {
                 <span className="font-bold mr-1 cursor-pointer">
                     {post?.authorName} 
                 </span>
-                {post.content}
+                {post.content.split("\r\n").map((ch) => {
+                    return <>
+                        <>{ch}</> <br />
+                    </>
+                })}
             </p>
         </div>
     </div>
@@ -176,13 +184,6 @@ export const Post = ({post, userProfile}) => {
                 {post.numberOfComment === 0 ? 'No have comment!' : `View all ${post.numberOfComment} comments` }
             </p>
         </div>
-        {/* <form onSubmitCapture={(e) => {
-            e.preventDefault();
-            console.log(e.currentTarget);
-        }}>
-            <input className="border-none outline-none text-sm pr-2 py-1 rounded-t bg-transparent" placeholder="Add a comment..." />
-            <button type="submit">Create</button>
-        </form> */}
 
         <div className="h-0.5 w-full mt-5 bg-slate-600" />
     </div>

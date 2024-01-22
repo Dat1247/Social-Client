@@ -1,5 +1,5 @@
 'use client'
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { STATUS_CODE, USER_LOGIN } from "@/util/config";
 import React, { Suspense, useEffect, useState } from "react";
 import { Select, Space, Input } from 'antd';
@@ -80,7 +80,6 @@ export default function InputPost() {
 
   const createPost = async (newPost) => {
     let formData = new FormData();
-
     formData.append("content", newPost['content'])
     formData.append("viewMode", newPost['viewMode'])
     newPost.uploads.forEach(upload => {
@@ -89,6 +88,7 @@ export default function InputPost() {
 
     try {
       const {status, data} = await PostService.createPost(formData);
+      
 
       if(status === STATUS_CODE.CREATED) {
         getPosts().then(res => {
@@ -108,7 +108,7 @@ export default function InputPost() {
     }
   }
 
-
+  console.log("post:  ", newPost.content.replace('\n', "<br />"))
 
   return <div className="max-w-md w-96">
     <Suspense fallback={<p>Load</p>}>
@@ -119,6 +119,11 @@ export default function InputPost() {
         {
          userProfile && ( <TextArea rows={3} value={newPost.content}
                     onChange={e => setNewPost({...newPost, content: e.target.value})}
+                    // onKeyDown={e => {
+                    //   if(e.key === "Enter" ) {
+                    //     setNewPost({...newPost, content: newPost.content + `\n`})
+                    //   }
+                    // }}
                     className="grow p-3 h-14 text-slate-700" placeholder={`Whats on your mind?`} />)
         }
       </div>
@@ -154,7 +159,6 @@ export default function InputPost() {
             }}
             onSelect={(e, option) => {
               setNewPost({...newPost, viewMode: e});
-              console.log({newPost})
             }}
             options={optionsStatus}
             optionRender={(option) => {
@@ -172,6 +176,7 @@ export default function InputPost() {
           <button onClick={() => {
             if(newPost.content === '' && newPost.uploads.length <= 0) return;
             if(newPost.viewMode === '') return;
+            console.log("Content submit: ", newPost.content);
             createPost(newPost);
           }} className="bg-emerald-200 text-slate-600 hover:bg-emerald-500 hover:text-white duration-500 px-4 py-1 rounded-md">Create</button>
         </div>

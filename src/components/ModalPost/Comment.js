@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {BsThreeDots } from 'react-icons/bs';
 import moment from "moment";
 import { Tooltip, Popover } from 'antd';
-
 import { STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { Notification } from "../Notification/Notification";

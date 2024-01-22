@@ -15,7 +15,7 @@ export const NavbarMenu = () => {
   
     }, [])
 
-  return <div className="w-80  h-screen py-8 px-6">
+  return <div className="w-80 h-screen py-8 px-6">
     <div className="flex flex-col h-full">
         <Link href={"/"} className="logo text-2xl font-bold tracking-wider">Social Clone</Link>
         <div className="flex flex-col justify-between h-full navbar pt-10">
