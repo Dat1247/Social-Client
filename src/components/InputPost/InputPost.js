@@ -39,7 +39,7 @@ export default function InputPost() {
   const [uploads, setUploads] = useState([]);
   const [newPost, setNewPost] = useState({
     content: '',
-    viewMode: 'Everyone',
+    viewMode: "Everyone",
     uploads: []
   });
   const dispatch = useAppDispatch()
@@ -49,6 +49,7 @@ export default function InputPost() {
 
   }, []);
 
+  console.log("Input post: ", uploads)
 
   const addPhotos = (e) => {
     const files = e.target.files;
@@ -119,16 +120,11 @@ export default function InputPost() {
         {
          userProfile && ( <TextArea rows={3} value={newPost.content}
                     onChange={e => setNewPost({...newPost, content: e.target.value})}
-                    // onKeyDown={e => {
-                    //   if(e.key === "Enter" ) {
-                    //     setNewPost({...newPost, content: newPost.content + `\n`})
-                    //   }
-                    // }}
                     className="grow p-3 h-14 text-slate-700" placeholder={`Whats on your mind?`} />)
         }
       </div>
       {uploads.length > 0 && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 max-w-sm flex-wrap">
           {uploads.map((upload, index) => (
             <div className="mt-2 relative" key={index}>
               <img src={upload.image} alt="" className="w-auto h-24 rounded-md" />

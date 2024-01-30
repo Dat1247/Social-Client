@@ -29,6 +29,9 @@ export const PostService = {
     },
     deleteComment: (idComment) => {
         return BaseService.delete(`comment/delete-comment/${idComment}`)
+    },
+    updatePost: (idPost, postObj) => {
+        return BaseService.put(`post/update-post/${idPost}`, postObj);
     }
     
 }

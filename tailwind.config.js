@@ -19,7 +19,8 @@ module.exports = {
       },
       width: {
         '0.5': '1px',
-        '80': '21rem'
+        '80': '21rem',
+        'lg': '32rem'
       },
       height: {
         '0.5': '1px'
@@ -31,6 +32,7 @@ module.exports = {
         '500px': '500px'
       },
       maxHeight: {
+        '650px': '650px',
         '750px': '750px'
       },
       minHeight: {

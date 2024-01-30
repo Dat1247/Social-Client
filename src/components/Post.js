@@ -13,7 +13,7 @@ import moment from "moment";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
-import { getArrPosts, openInputPostModal, openPostModal, setPostIdOfModal } from "@/redux/features/postSlice";
+import { getArrPosts, openInputPostModal, openPostModal, setPostIdEdit, setPostIdOfModal } from "@/redux/features/postSlice";
 import { useAppDispatch } from "@/redux/store";
 import { Notification } from "./Notification/Notification";
 import { CustomProvider } from "./CustomProvider/CustomProvider";
@@ -113,6 +113,7 @@ export const Post = ({post, userProfile}) => {
                     content={
                         <Fragment>
                             <div className="flex gap-1 items-center cursor-pointer hover:bg-slate-700 px-2 py-1 rounded-md" onClick={() => {
+                                dispatch(setPostIdEdit(post.postID))
                                 dispatch(openInputPostModal());
                                 setOpen(false);
                             }}>
@@ -163,9 +164,9 @@ export const Post = ({post, userProfile}) => {
                     {post?.authorName} 
                 </span>
                 {post.content.split("\r\n").map((ch) => {
-                    return <>
+                    return <Fragment key={ch} >
                         <>{ch}</> <br />
-                    </>
+                    </Fragment>
                 })}
             </p>
         </div>

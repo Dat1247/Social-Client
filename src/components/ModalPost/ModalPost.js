@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt, FaUserFriends } from "react-icons/fa";
@@ -138,7 +138,11 @@ export const ModalPost = () => {
                   </div>
                   <div className="my-4">
                     <p className="mx-4">
-                      {postDetailById?.content}
+                      {postDetailById?.content?.split("\r\n").map((ch) => {
+                        return <Fragment key={ch} >
+                            <>{ch}</> <br />
+                        </Fragment>
+                      })}
                     </p>
                     {renderImage()}
                   </div>
