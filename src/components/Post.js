@@ -23,8 +23,8 @@ export const getLikesOfPost = async(idPost) => {
     if(status === STATUS_CODE.SUCCESS) {
         return data;
     }
-    return []
-}
+    return [];
+};
 
 export const Post = ({post, userProfile}) => {
     const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ export const Post = ({post, userProfile}) => {
                 setIsYourLike(true);
             }
             
-        }).catch(err => console.log(`err: ${err}`))
+        }).catch(err => console.log(`err: ${err}`));
     }, [post]);
 
       const handleOpenChange = (newOpen) => {
@@ -51,31 +51,30 @@ export const Post = ({post, userProfile}) => {
         try {
             const {data, status} = await PostService.likePost(post.postID);
 
-            console.log({data, status})
             if(status === STATUS_CODE.SUCCESS) {
                 getPosts().then(res => {
-                    dispatch(getArrPosts(res))
+                    dispatch(getArrPosts(res));
                 });
-                setIsYourLike(data?.isLike)
+                setIsYourLike(data?.isLike);
             }
 
         } catch(err) {
-            console.log(err)
+            console.log(err);
         }
     }
     const handleClickComment = () => {
-        dispatch(openPostModal())
-        dispatch(setPostIdOfModal(post.postID))
+        dispatch(openPostModal());
+        dispatch(setPostIdOfModal(post.postID));
     }
 
     const deletePost = async () => {
         try {
-            const result = await PostService.deletePost(post?.postID)
+            const result = await PostService.deletePost(post?.postID);
 
             if(result.status === STATUS_CODE.SUCCESS) {
                 getPosts().then(res => {
-                    dispatch(getArrPosts(res))
-                  })
+                    dispatch(getArrPosts(res));
+                });
                 Notification("success", "Deleted posts successfully!");
                 setOpen(false);
             }

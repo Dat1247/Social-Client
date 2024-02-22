@@ -32,6 +32,9 @@ export const PostService = {
     },
     updatePost: (idPost, postObj) => {
         return BaseService.put(`post/update-post/${idPost}`, postObj);
+    },
+    updateComment: (idComment, commentEdit) => {
+        return BaseService.put(`comment/update-comment/${idComment}`, commentEdit);
     }
     
 }

@@ -7,13 +7,13 @@ import {BsDot} from 'react-icons/bs';
 import { TiWorld } from "react-icons/ti";
 import { TbLock } from "react-icons/tb";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { closePostModal, getArrPosts, setPostDetailById } from "@/redux/features/postSlice";
+import { closePostModal, getArrPosts, setIsEditComment, setPostDetailById } from "@/redux/features/postSlice";
 import { PostService } from "@/services/PostService";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS, USER_LOGIN } from "@/util/config";
 import moment from "moment";
 import { getPosts } from "../ListPosts/ListPosts";
 import { getLikesOfPost } from "../Post";
-import { Comment } from "./Comment";
+import { Comments } from "./Comments";
 
 export const getPostDetailById = async(id) => {
   try {
@@ -29,7 +29,7 @@ export const ModalPost = () => {
   const [userProfile, setUserProfile] = useState({});
   const [isYourLike, setIsYourLike] = useState(false);
   const [contentComment, setContentComment] = useState("");
-  const {postIdOfModal, postDetailById} = useAppSelector(state => state.postSlice);
+  const { postIdOfModal, postDetailById } = useAppSelector(state => state.postSlice);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -38,8 +38,7 @@ export const ModalPost = () => {
 
   useEffect(() => {
     getPostDetailById(postIdOfModal).then((res) => {
-      console.log({res})
-      dispatch(setPostDetailById(res))
+      dispatch(setPostDetailById(res));
     });
   }, [postIdOfModal, dispatch]);
 
@@ -51,7 +50,7 @@ export const ModalPost = () => {
         } else {
             setIsYourLike(true);
         }
-    }).catch(err => console.log(`err: ${err}`))
+    }).catch(err => console.log(`err: ${err}`));
 }, [postIdOfModal, userProfile]);
 
   const handleChangeLike = async() => {
@@ -59,15 +58,15 @@ export const ModalPost = () => {
         const {data, status} = await PostService.likePost(postDetailById.postID);
         if(status === STATUS_CODE.SUCCESS) {
             getPosts().then(res => {
-              dispatch(getArrPosts(res))
+              dispatch(getArrPosts(res));
             });
             getPostDetailById(postIdOfModal).then(res => {
-              dispatch(setPostDetailById(res))
+              dispatch(setPostDetailById(res));
             });
-            setIsYourLike(data?.isLike)
+            setIsYourLike(data?.isLike);
         }
     } catch(err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
@@ -80,30 +79,28 @@ export const ModalPost = () => {
   }
 
   const handleChangeComment = (e) => {
-    setContentComment(e.target.value)
+    setContentComment(e.target.value);
   }
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    try {
-
-      const {data, status} = await PostService.createComment({
-        content: contentComment,
-      postID: postDetailById.postID
-    }, postDetailById.postID);
-    if(status === STATUS_CODE.CREATED) {
-      getPosts().then(res => {
-        dispatch(getArrPosts(res))
-      });
-      getPostDetailById(postIdOfModal).then(res => {
-        dispatch(setPostDetailById(res))
-      });
-      setContentComment("");
-    }
-    console.log("Comment ", {data, status})
-    } catch (err) {
-      console.log("Error ", err)
-    }
+      try {
+        const {data, status} = await PostService.createComment({
+          content: contentComment,
+          postID: postDetailById.postID
+        }, postDetailById.postID);
+        if(status === STATUS_CODE.CREATED) {
+          getPosts().then(res => {
+            dispatch(getArrPosts(res));
+          });
+          getPostDetailById(postIdOfModal).then(res => {
+            dispatch(setPostDetailById(res));
+          });
+          setContentComment("");
+        }
+      } catch (err) {
+        console.log("Error ", err)
+      }
   }
 
   return <div className="w-screen h-screen absolute top-0 left-0 " style={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
@@ -114,7 +111,8 @@ export const ModalPost = () => {
                 {`${postDetailById?.authorName}'s Post`}
               </span>
               <button className="absolute top-2 right-2 text-3xl flex items-center justify-center rounded-full w-9 h-9 bg-slate-500 text-white hover:bg-slate-400 duration-150" onClick={() => {
-                dispatch(closePostModal())
+                dispatch(closePostModal());
+                dispatch(setIsEditComment(false));
               }}><IoIosClose /></button>
             </div>
             <hr className="h-px bg-stone-500" />
@@ -137,7 +135,7 @@ export const ModalPost = () => {
                     </div>
                   </div>
                   <div className="my-4">
-                    <p className="mx-4">
+                    <p className="mx-4 mb-2">
                       {postDetailById?.content?.split("\r\n").map((ch) => {
                         return <Fragment key={ch} >
                             <>{ch}</> <br />
@@ -181,13 +179,13 @@ export const ModalPost = () => {
               </div>
               <div>
                 <div className="mx-4 py-3">
-                  <Comment arrComments={postDetailById?.comments} idPost={postDetailById?.postID} />
+                  <Comments arrComments={postDetailById?.comments} idPost={postDetailById?.postID} userProfile={userProfile} />
                 </div>
               </div>
             </div>
             <div className="mx-4 mb-4">
               <div className="flex gap-2 items-start">
-                <div className="">
+                <div>
                   {userProfile.avatar && <img className="w-10 h-10 max-w-none rounded-full cursor-pointer" src={userProfile?.avatar} alt="avatar" />}
                 </div>
                 <div className="bg-slate-500 py-2 px-3 rounded-2xl text-sm flex flex-wrap flex-grow">

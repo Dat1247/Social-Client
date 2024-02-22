@@ -4,10 +4,13 @@ const initialState = {
     arrPost: [],
     isShowPostModal: false,
     isShowInputPostModal: false,
+    isEditComment: false,
+    idEditComment: undefined,
     postIdOfModal: undefined,
     postIdEdit: undefined,
     postDetailById: {},
-    postEdit: {}
+    postEdit: {},
+    arrComment: []
 }
 
 export const postSlice = createSlice({
@@ -40,12 +43,18 @@ export const postSlice = createSlice({
         },
         setPostEdit: (state, action) => {
             state.postEdit = action.payload
+        },
+        setIsEditComment: (state, action) => {
+            state.isEditComment = action.payload
+        },
+        setIdEditComment: (state, action) => {
+            state.idEditComment = action.payload
         }
     }
 
 })
 
 export const {
-    getArrPosts, openPostModal, closePostModal, setPostIdOfModal, setPostDetailById, openInputPostModal, closeInputPostModal, setPostIdEdit, setPostEdit
+    getArrPosts, openPostModal, closePostModal, setPostIdOfModal, setPostDetailById, openInputPostModal, closeInputPostModal, setPostIdEdit, setPostEdit, setIsEditComment, setIdEditComment
 } = postSlice.actions;
 export default postSlice.reducer;

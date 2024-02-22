@@ -42,14 +42,11 @@ export default function InputPost() {
     viewMode: "Everyone",
     uploads: []
   });
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
-
+    setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)));
   }, []);
-
-  console.log("Input post: ", uploads)
 
   const addPhotos = (e) => {
     const files = e.target.files;
@@ -62,11 +59,11 @@ export default function InputPost() {
           const objFile = {
             detail: file,
             image: e.target.result
-          }
+          };
           setUploads([...uploads, objFile]);
         }
 
-        setNewPost({...newPost, uploads: [...newPost.uploads, file]})
+        setNewPost({...newPost, uploads: [...newPost.uploads, file]});
       }
     }
   }
@@ -78,22 +75,19 @@ export default function InputPost() {
     setNewPost({...newPost, uploads: newPostUploads});
   }
 
-
   const createPost = async (newPost) => {
     let formData = new FormData();
-    formData.append("content", newPost['content'])
-    formData.append("viewMode", newPost['viewMode'])
+    formData.append("content", newPost['content']);
+    formData.append("viewMode", newPost['viewMode']);
     newPost.uploads.forEach(upload => {
-      formData.append("myFile", upload, upload.name)
-    })
+      formData.append("myFile", upload, upload.name);
+    });
 
     try {
       const {status, data} = await PostService.createPost(formData);
-      
-
       if(status === STATUS_CODE.CREATED) {
         getPosts().then(res => {
-          dispatch(getArrPosts(res))
+          dispatch(getArrPosts(res));
         })
         setNewPost({
           content: '',
@@ -104,12 +98,10 @@ export default function InputPost() {
       }
     } catch(err) {
       Notification("error", "Create post failed!");
-      console.log(err)
+      console.log(err);
 
     }
   }
-
-  console.log("post:  ", newPost.content.replace('\n', "<br />"))
 
   return <div className="max-w-md w-96">
     <Suspense fallback={<p>Load</p>}>

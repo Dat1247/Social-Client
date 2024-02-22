@@ -5,15 +5,15 @@ import { USER_LOGIN } from "@/util/config";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {AiFillHome, AiOutlineSearch, AiFillHeart} from 'react-icons/ai';
-import {FaBars} from 'react-icons/fa'
+import {FaBars} from 'react-icons/fa';
+import { IoMdPeople } from "react-icons/io";
 
 export const NavbarMenu = () => {
-    const [userProfile, setUserProfile] = useState({})
+    const [userProfile, setUserProfile] = useState({});
 
     useEffect(() => {
       setUserProfile(JSON.parse(localStorage.getItem(USER_LOGIN)))
-  
-    }, [])
+    }, []);
 
   return <div className="w-80 h-screen py-8 px-6">
     <div className="flex flex-col h-full">
@@ -23,8 +23,11 @@ export const NavbarMenu = () => {
                 <Link className="mb-4 flex gap-2 items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href={'/'}>
                     <AiFillHome />Home
                 </Link>
-                <Link className="mb-4 flex gap-2 items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href={'/search'}>
+                <Link className="mb-4 flex gap-2 items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href="/search">
                     <AiOutlineSearch />Search
+                </Link>
+                <Link className="mb-4 flex gap-2 items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href="/friends">
+                    <IoMdPeople />Friends
                 </Link>
                 <Link className="mb-4 flex gap-2 items-center p-2 duration-500 rounded-md hover:bg-slate-300 hover:text-black" href={'/notification'}>
                    <AiFillHeart />Notification

@@ -24,7 +24,8 @@ export const ModalInputPost = () => {
             dispatch(setPostEdit(res));
             setPost(res);
             setUploads(res?.FileUpload);
-        })
+        });
+
     }, [postIdEdit, dispatch]);
 
     const addPhotos = (e) => {
@@ -41,7 +42,7 @@ export const ModalInputPost = () => {
               setUploads([...uploads, objFile]);
             }
     
-            setPost({...post, FileUpload: [...post.FileUpload, file]})
+            setPost({...post, FileUpload: [...post.FileUpload, file]});
           }
         }
     }
@@ -52,7 +53,7 @@ export const ModalInputPost = () => {
             if(typeof upload === 'string') {
                 return up !== upload;
             }
-            return up !== upload.detail
+            return up !== upload.detail;
         });
         setUploads(newUploadsArray);
         setPost({...post, FileUpload: newPostUploads});
@@ -66,9 +67,9 @@ export const ModalInputPost = () => {
         formData.append("viewMode", post['ViewMode']);
         post.FileUpload.forEach(file => {
             if(typeof file === "object") {
-                formData.append("myFile", file, file.name)
+                formData.append("myFile", file, file.name);
             } else if (typeof file === "string") {
-                arrUpload.push(file)
+                arrUpload.push(file);
             }
         })
         formData.append("arrayFileUpload", arrUpload);
@@ -78,7 +79,7 @@ export const ModalInputPost = () => {
 
             if(status === STATUS_CODE.SUCCESS) {
                 getPosts().then(res => {
-                    dispatch(getArrPosts(res))
+                    dispatch(getArrPosts(res));
                 });
                 dispatch(closeInputPostModal());
                 Notification("success", data?.message);
@@ -104,7 +105,7 @@ export const ModalInputPost = () => {
                 <div className="mx-4 mt-4">
                     <div className=" max-h-650px overflow-y-auto ">
                         {
-                        postEdit && ( <TextArea rows={5} value={post?.content}
+                        postEdit.content && ( <TextArea rows={post?.content?.split("\r\n").length} value={post?.content}
                                     onChange={e => setPost({...post, content: e.target.value})}
                                     className="grow p-4 h-14 bg-transparent outline-none border-none text-white scrollBarTextArea focus:outline-none focus:border-none focus:shadow-none" />)
                         }
