@@ -9,5 +9,11 @@ export const UserService = {
     },
     getUserProfile: () => {
         return BaseService.get(`user/get-profile`)
+    },
+    getUserFriends: (userId) => {
+        return BaseService.get(`friend/get-list-friend/${userId}`)
+    },
+    getFriendRequests: (userId) => {
+        return BaseService.get(`friend/get-friend-request-by-user-id/${userId}`);
     }
 }

@@ -1,7 +1,7 @@
-import { Content } from "@/components/Content";
+import { Content } from "@/components/Contents/HomeContent";
 import { ModalPost } from "@/components/ModalPost/ModalPost";
 import { NavbarMenu } from "@/components/NavbarMenu";
-import { useAppSelector } from "@/redux/store";
+import { useAppSelector } from "@/redux/stores/homeStore";
 import React from "react";
 
 export const HomePage = () => {

@@ -6,7 +6,7 @@ import { FaRegCommentAlt, FaUserFriends } from "react-icons/fa";
 import {BsDot} from 'react-icons/bs';
 import { TiWorld } from "react-icons/ti";
 import { TbLock } from "react-icons/tb";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/stores/homeStore";
 import { closePostModal, getArrPosts, setIsEditComment, setPostDetailById } from "@/redux/features/postSlice";
 import { PostService } from "@/services/PostService";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS, USER_LOGIN } from "@/util/config";

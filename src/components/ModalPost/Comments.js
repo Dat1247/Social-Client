@@ -7,7 +7,7 @@ import { PostService } from "@/services/PostService";
 import { Notification } from "../Notification/Notification";
 import { getPosts } from "../ListPosts/ListPosts";
 import { getArrPosts, setIdEditComment, setIsEditComment, setPostDetailById } from "@/redux/features/postSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/stores/homeStore";
 import { getPostDetailById } from "./ModalPost";
 import { CustomProvider } from "../CustomProvider/CustomProvider";
 

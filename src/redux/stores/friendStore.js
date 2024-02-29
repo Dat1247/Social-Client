@@ -1,12 +1,10 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import userSlice from './features/userSlice';
-import postSlice from './features/postSlice';
+import userSlice from '../features/userSlice';
 
-export const store = configureStore({
+export const friendStore = configureStore({
     reducer: {
-        userSlice,
-        postSlice
+        userSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

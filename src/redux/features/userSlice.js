@@ -5,7 +5,10 @@ let ULogin = {};
 
 const initialState = {
     arrUser: [],
-    userLogin: ULogin
+    userLogin: ULogin,
+    userObj: {},
+    listFriends: [],
+    listFriendRequests: [],
 }
 
 export const userSlice = createSlice({
@@ -14,13 +17,24 @@ export const userSlice = createSlice({
     reducers: {
         setUserLogin: (state, action) => {
             state.userLogin = action.payload;
-
+        },
+        setUserObj: (state, action) => {
+            state.userObj = action.payload;
+        },
+        setListFriends: (state, action) => {
+            state.listFriends = action.payload;
+        },
+        setListFriendRequests: (state, action) => {
+            state.listFriendRequests = action.payload
         }
     }
 });
 
 export const {
-    setUserLogin
+    setUserLogin,
+    setUserObj,
+    setListFriends,
+    setListFriendRequests
 } = userSlice.actions;
 
 export default userSlice.reducer;

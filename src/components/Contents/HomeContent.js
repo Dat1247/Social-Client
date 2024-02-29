@@ -1,8 +1,8 @@
 import React from "react";
-import InputPost from "./InputPost/InputPost";
-import ListPosts from "./ListPosts/ListPosts";
-import { useAppSelector } from "@/redux/store";
-import { ModalInputPost } from "./InputPost/ModalInputPost";
+import InputPost from "../InputPost/InputPost";
+import ListPosts from "../ListPosts/ListPosts";
+import { useAppSelector } from "@/redux/stores/homeStore";
+import { ModalInputPost } from "../InputPost/ModalInputPost";
 
 export const Content = () => {
   const {isShowInputPostModal} = useAppSelector(state => state.postSlice)

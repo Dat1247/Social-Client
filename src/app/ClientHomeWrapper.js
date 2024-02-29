@@ -1,5 +1,5 @@
 'use client'
-import ReduxProvider from "@/redux/ReduxProvider";
+import ReduxProvider from "@/redux/providers/ReduxProvider";
 import React from "react";
 import { HomePage } from "./HomePage";
 

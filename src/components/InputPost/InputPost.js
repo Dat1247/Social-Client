@@ -1,5 +1,5 @@
 'use client'
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch } from "@/redux/stores/homeStore";
 import { STATUS_CODE, USER_LOGIN } from "@/util/config";
 import React, { Suspense, useEffect, useState } from "react";
 import { Select, Space, Input } from 'antd';
@@ -88,7 +88,8 @@ export default function InputPost() {
       if(status === STATUS_CODE.CREATED) {
         getPosts().then(res => {
           dispatch(getArrPosts(res));
-        })
+        });
+        console.log("Create post: ", data)
         setNewPost({
           content: '',
           viewMode: 'everyone',

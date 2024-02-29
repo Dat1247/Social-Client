@@ -1,12 +1,8 @@
-import { NavbarMenu } from "@/components/NavbarMenu";
 import React from "react";
+import FriendWrapper from "./FriendWrapper";
 
-export default function Notify() {
-  return <div className="flex">
-      <NavbarMenu />
-      <div className="h-screen w-0.5 shadow-3xl bg-slate-600"></div>
-      <div>
-        Friends
-      </div>
-    </div>
+export default function FriendHome() {
+  return <main>
+    <FriendWrapper />
+  </main>
 };

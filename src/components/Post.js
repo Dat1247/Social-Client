@@ -14,7 +14,7 @@ import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/con
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
 import { getArrPosts, openInputPostModal, openPostModal, setPostIdEdit, setPostIdOfModal } from "@/redux/features/postSlice";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch } from "@/redux/stores/homeStore";
 import { Notification } from "./Notification/Notification";
 import { CustomProvider } from "./CustomProvider/CustomProvider";
 
@@ -122,8 +122,7 @@ export const Post = ({post, userProfile}) => {
                                 </span>
                             </div>
                             <Popconfirm
-                                title="Delete the task"
-                                description="Are you sure to delete this post?"
+                                title="Are you sure to delete this post?"
                                 onConfirm={() => {
                                     deletePost()
                                 }}

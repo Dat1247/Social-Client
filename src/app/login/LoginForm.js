@@ -1,7 +1,7 @@
 'use client'
 
 import { Loading } from "@/components/Loading";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch } from "@/redux/stores/homeStore";
 import { UserService } from "@/services/UserService";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";

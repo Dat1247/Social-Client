@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Post } from "../Post";
 import { PostService } from "@/services/PostService";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/stores/homeStore";
 import { getArrPosts } from "@/redux/features/postSlice";
 import { USER_LOGIN } from "@/util/config";
 

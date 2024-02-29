@@ -1,5 +1,5 @@
 import { closeInputPostModal, getArrPosts, setPostEdit } from "@/redux/features/postSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/stores/homeStore";
 import React, { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
@@ -81,6 +81,7 @@ export const ModalInputPost = () => {
                 getPosts().then(res => {
                     dispatch(getArrPosts(res));
                 });
+                console.log("Edit post : ", data)
                 dispatch(closeInputPostModal());
                 Notification("success", data?.message);
             }
@@ -105,7 +106,7 @@ export const ModalInputPost = () => {
                 <div className="mx-4 mt-4">
                     <div className=" max-h-650px overflow-y-auto ">
                         {
-                        postEdit.content && ( <TextArea rows={post?.content?.split("\r\n").length} value={post?.content}
+                        postEdit?.content && ( <TextArea rows={post?.content?.split("\r\n").length} value={post?.content}
                                     onChange={e => setPost({...post, content: e.target.value})}
                                     className="grow p-4 h-14 bg-transparent outline-none border-none text-white scrollBarTextArea focus:outline-none focus:border-none focus:shadow-none" />)
                         }
@@ -127,7 +128,7 @@ export const ModalInputPost = () => {
                         <label className="flex gap-1 cursor-pointer bg-slate-600 text-white hover:bg-slate-700 hover:text-white duration-500 px-4 py-1 rounded-md">
                             <input type="file" className="hidden" multiple onChange={addPhotos}  />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                             </svg>
                             <span className="hidden md:block">Photos</span>
                         </label>
