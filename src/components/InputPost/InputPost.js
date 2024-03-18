@@ -14,7 +14,7 @@ import { TbLock } from "react-icons/tb";
 import { CustomProvider } from "../CustomProvider/CustomProvider";
 
 
-const optionsStatus = [
+export const optionsStatus = [
   {
     value: 'everyone',
     label: 'Everyone',

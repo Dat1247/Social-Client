@@ -13,7 +13,7 @@ import moment from "moment";
 import { IMAGE_URL, STATUS_CODE, TIME_OF_DATE_TO_MILLISECONDS } from "@/util/config";
 import { PostService } from "@/services/PostService";
 import { getPosts } from "./ListPosts/ListPosts";
-import { getArrPosts, openInputPostModal, openPostModal, setPostIdEdit, setPostIdOfModal } from "@/redux/features/postSlice";
+import { getArrPosts, openChangeStatusPostModal, openInputPostModal, openPostModal, setCurrentStatusPost, setIdChangeStatusPost, setPostIdEdit, setPostIdOfModal } from "@/redux/features/postSlice";
 import { useAppDispatch } from "@/redux/stores/homeStore";
 import { Notification } from "./Notification/Notification";
 import { CustomProvider } from "./CustomProvider/CustomProvider";
@@ -102,7 +102,13 @@ export const Post = ({post, userProfile}) => {
                         {moment(new Date()).valueOf() - moment(post?.updatedAt).valueOf() < TIME_OF_DATE_TO_MILLISECONDS ? moment(post?.updatedAt).fromNow().valueOf() : moment(post?.updatedAt).format("DD/MM/YYYY HH:mm")}
                     </p>
                     <BsDot />
-                    <span>{(post?.ViewMode === 'only me') || (post?.ViewMode === 'Only me') ? <TbLock /> : (post?.ViewMode === 'friends') || (post?.ViewMode === 'Friend') ? <FaUserFriends /> : <TiWorld />}</span>
+                    <span className="cursor-pointer p-0.5 rounded-sm hover:bg-slate-600" onClick={() => {
+                        console.log("Post: ", post);
+                        dispatch(openChangeStatusPostModal());
+                        dispatch(setIdChangeStatusPost(post.postID));
+                        dispatch(setCurrentStatusPost(post.ViewMode.toLowerCase()));
+                    }}>{(post?.ViewMode === 'only me') || (post?.ViewMode === 'Only me') ? <TbLock /> : (post?.ViewMode === 'friends') || (post?.ViewMode === 'Friend') ? <FaUserFriends /> : <TiWorld />}</span>
+                    
                 </div>
             </div>
         </div>

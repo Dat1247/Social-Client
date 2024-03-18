@@ -4,10 +4,13 @@ const initialState = {
     arrPost: [],
     isShowPostModal: false,
     isShowInputPostModal: false,
+    isShowChangeStatusPostModal: false,
     isEditComment: false,
     idEditComment: undefined,
     postIdOfModal: undefined,
     postIdEdit: undefined,
+    idChangeStatusPostModal: undefined,
+    currentStatusPost: "",
     postDetailById: {},
     postEdit: {},
     arrComment: []
@@ -32,6 +35,12 @@ export const postSlice = createSlice({
         closeInputPostModal: (state, action) => {
             state.isShowInputPostModal = false
         },
+        openChangeStatusPostModal: (state, action) => {
+            state.isShowChangeStatusPostModal = true
+        },
+        closeChangeStatusPostModal: (state, action) => {
+            state.isShowChangeStatusPostModal = false
+        },
         setPostIdOfModal: (state, action) => {
             state.postIdOfModal = action.payload
         },
@@ -49,12 +58,18 @@ export const postSlice = createSlice({
         },
         setIdEditComment: (state, action) => {
             state.idEditComment = action.payload
+        },
+        setIdChangeStatusPost: (state, action) => {
+            state.idChangeStatusPostModal = action.payload
+        },
+        setCurrentStatusPost: (state, action) => {
+            state.currentStatusPost = action.payload
         }
     }
 
 })
 
 export const {
-    getArrPosts, openPostModal, closePostModal, setPostIdOfModal, setPostDetailById, openInputPostModal, closeInputPostModal, setPostIdEdit, setPostEdit, setIsEditComment, setIdEditComment
+    getArrPosts, openPostModal, closePostModal, setPostIdOfModal, setPostDetailById, openInputPostModal, closeInputPostModal, setPostIdEdit, setPostEdit, setIsEditComment, setIdEditComment, openChangeStatusPostModal, closeChangeStatusPostModal, setIdChangeStatusPost, setCurrentStatusPost
 } = postSlice.actions;
 export default postSlice.reducer;

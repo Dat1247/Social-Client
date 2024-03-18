@@ -9,6 +9,9 @@ module.exports = {
  
   theme: {
     extend: {
+      backgroundColor: {
+        "black-0.5": "rgba(0, 0, 0, 0.5)",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -29,6 +32,7 @@ module.exports = {
         '700px': '700px'
       },
       minWidth: {
+        '350px': '350px',
         '500px': '500px'
       },
       maxHeight: {
@@ -36,6 +40,7 @@ module.exports = {
         '750px': '750px'
       },
       minHeight: {
+        '400px': '400px',
         '560px': '560px',
         '800px': '800px'
       },

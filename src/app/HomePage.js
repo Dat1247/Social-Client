@@ -1,11 +1,12 @@
 import { Content } from "@/components/Contents/HomeContent";
 import { ModalPost } from "@/components/ModalPost/ModalPost";
 import { NavbarMenu } from "@/components/NavbarMenu";
+import { ModalChangeStatusPost } from "@/components/Post/ModalChangeStatusPost";
 import { useAppSelector } from "@/redux/stores/homeStore";
 import React from "react";
 
 export const HomePage = () => {
-  const {isShowPostModal} = useAppSelector(state => state.postSlice)
+  const {isShowPostModal, isShowChangeStatusPostModal} = useAppSelector(state => state.postSlice)
 
   return <>
     <div className="flex">
@@ -14,5 +15,6 @@ export const HomePage = () => {
       <Content />
     </div>
     {isShowPostModal && <ModalPost />}
+    {isShowChangeStatusPostModal && <ModalChangeStatusPost />}
   </>;
 };
