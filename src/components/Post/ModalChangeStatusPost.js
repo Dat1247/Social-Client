@@ -1,10 +1,14 @@
-import { closeChangeStatusPostModal, setPostDetailById } from "@/redux/features/postSlice";
+import { closeChangeStatusPostModal, getArrPosts, setPostDetailById } from "@/redux/features/postSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/stores/homeStore";
 import React, { useEffect, useState } from "react";
 import { Input, Radio, Space } from 'antd';
 import { IoIosClose } from "react-icons/io";
 import { getPostDetailById } from "../ModalPost/ModalPost";
 import { optionsStatus } from "../InputPost/InputPost";
+import { PostService } from "@/services/PostService";
+import { STATUS_CODE } from "@/util/config";
+import { Notification } from "../Notification/Notification";
+import { getPosts } from "../ListPosts/ListPosts";
 
 export const ModalChangeStatusPost = () => {
   const { idChangeStatusPostModal, postDetailById, currentStatusPost } = useAppSelector(state => state.postSlice)
@@ -58,10 +62,25 @@ export const ModalChangeStatusPost = () => {
           <button className="bg-slate-600 hover:bg-slate-800 px-3 py-1.5 rounded-lg" onClick={() => {
             dispatch(closeChangeStatusPostModal())
           }}>Cancel</button>
-          <button className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400" onClick={() => {
-            dispatch(closeChangeStatusPostModal())
+          <button className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400" onClick={async() => {
+            if(value == postDetailById?.ViewMode?.toLowerCase()){
+              dispatch(closeChangeStatusPostModal());
+            } else {
+              try {
+                const {status, data} = await PostService.changeStatusPost(postDetailById.postID, {viewMode: value});
+                if(status === STATUS_CODE.SUCCESS) {
+                  Notification("success", "Post updated successfully!");
+                  getPosts().then(res => {
+                    dispatch(getArrPosts(res));
+                  });
+                  dispatch(closeChangeStatusPostModal());
+                }
+              } catch(err) {
+                console.log(err);
+              }
+            }
           }}>
-            {value == postDetailById?.ViewMode ? "Done" : "Save"}
+            {value == postDetailById?.ViewMode?.toLowerCase() ? "Done" : "Save"}
           </button>
         </div>
       </div>

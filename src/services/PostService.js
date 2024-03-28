@@ -35,6 +35,9 @@ export const PostService = {
     },
     updateComment: (idComment, commentEdit) => {
         return BaseService.put(`comment/update-comment/${idComment}`, commentEdit);
+    },
+    changeStatusPost: (idPost, viewModeOfPost) => {
+        return BaseService.put(`post/change-status/${idPost}`, viewModeOfPost);
     }
     
 }

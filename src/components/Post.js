@@ -30,6 +30,7 @@ export const Post = ({post, userProfile}) => {
     const [open, setOpen] = useState(false);
     const [isYourLike, setIsYourLike] = useState(false);
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         const data = getLikesOfPost(post.postID);
         data.then(res => {
@@ -41,7 +42,7 @@ export const Post = ({post, userProfile}) => {
             }
             
         }).catch(err => console.log(`err: ${err}`));
-    }, [post]);
+    }, [post, userProfile.id]);
 
       const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
@@ -103,10 +104,15 @@ export const Post = ({post, userProfile}) => {
                     </p>
                     <BsDot />
                     <span className="cursor-pointer p-0.5 rounded-sm hover:bg-slate-600" onClick={() => {
+                        if(post.authorId !== userProfile.id){
+                            Notification("error", "You don't have authorized to change status of this post!");
+                            return;
+                        }
                         console.log("Post: ", post);
                         dispatch(openChangeStatusPostModal());
                         dispatch(setIdChangeStatusPost(post.postID));
                         dispatch(setCurrentStatusPost(post.ViewMode.toLowerCase()));
+                        
                     }}>{(post?.ViewMode === 'only me') || (post?.ViewMode === 'Only me') ? <TbLock /> : (post?.ViewMode === 'friends') || (post?.ViewMode === 'Friend') ? <FaUserFriends /> : <TiWorld />}</span>
                     
                 </div>
